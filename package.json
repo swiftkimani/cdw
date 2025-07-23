@@ -11,7 +11,9 @@
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
     "@prisma/client": "^6.5.0",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
+    "@t3-oss/env-nextjs": "^0.13.8",
     "@tinymce/tinymce-react": "^6.2.1",
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.35.1",
@@ -19,6 +21,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "csv": "^6.3.11",
+    "debounce": "^2.2.0",
     "framer-motion": "^12.23.6",
     "html-react-parser": "^5.2.6",
     "ky": "^1.8.2",
@@ -52,6 +55,7 @@
     "typescript": "^5.8.3"
   },
   "prisma": {
+    "schema": "prisma/schema",
     "seed": "ts-node -r tsconfig-paths/register --compiler-options {\"module\":\"CommonJS\"} prisma/seed/seed.ts"
   }
 }

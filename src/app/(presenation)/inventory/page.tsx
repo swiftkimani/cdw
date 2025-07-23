@@ -23,7 +23,7 @@ const getInventory = async (searchParams: AwaitedPageProps["searchParams"]) => {
   // calculate the offset
   const offset = (page - 1) * CLASSIFIEDS_PER_PAGE;
 
-  return prisma.classified.findMany({
+  return prisma.classifieds.findMany({
     where: buildClassifiedFilterQuery(searchParams),
     include: { images: { take: 1 } },
     skip: offset,
@@ -34,11 +34,11 @@ const getInventory = async (searchParams: AwaitedPageProps["searchParams"]) => {
 export default async function InventoryPage(props: PageProps) {
   const searchParams = await props.searchParams;
   const classifieds = getInventory(searchParams);
-  const count = await prisma.classified.count({
+  const count = await prisma.classifieds.count({
     where: buildClassifiedFilterQuery(searchParams),
   });
 
-  const minMaxResult = await prisma.classified.aggregate({
+  const minMaxResult = await prisma.classifieds.aggregate({
     where: { status: ClassifiedStatus.LIVE },
     _min: {
       year: true,
