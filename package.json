@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
+    "@hookform/resolvers": "^5.1.1",
+    "@icons-pack/react-simple-icons": "^13.6.0",
     "@prisma/client": "^6.5.0",
+    "@radix-ui/react-dialog": "^1.1.14",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@t3-oss/env-nextjs": "^0.13.8",
@@ -21,6 +25,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "csv": "^6.3.11",
+    "date-fns": "^4.1.0",
     "debounce": "^2.2.0",
     "framer-motion": "^12.23.6",
     "html-react-parser": "^5.2.6",
@@ -33,6 +38,7 @@
     "prisma": "^6.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.61.1",
     "sanitize-html": "^2.17.0",
     "slugify": "^1.6.6",
     "sonner": "^2.0.6",
@@ -40,7 +46,7 @@
     "tailwindcss-animate": "^1.0.7",
     "unlazy": "^0.12.4",
     "uuid": "^11.1.0",
-    "zod": "^4.0.5"
+    "zod": "^4.0.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
