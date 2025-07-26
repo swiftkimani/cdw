@@ -1,4 +1,4 @@
-import { ClassifiedFilterSchema } from "../app/schemas/classified.schemas";
+import { ClassifiedFilterSchema } from "../app/schemas/classified.schema";
 import type { AwaitedPageProps } from "@/config/types";
 import {
   BodyType,
@@ -47,8 +47,8 @@ export function formatBodyType(bodyType: BodyType) {
       return "SUV";
     case BodyType.WAGON:
       return "Wagon";
-    case BodyType.SEDAN:
-      return "Sedan";
+    case BodyType.SALOON:
+      return "Saloon";
     default:
       return "Unknown";
   }

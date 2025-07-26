@@ -5,7 +5,6 @@ import { seedTaxonomy } from "./taxonomy.seed";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("testing prisma connection");
   await prisma.$executeRaw`TRUNCATE TABLE "makes" RESTART IDENTITY CASCADE`;
   // await prisma.$executeRaw`TRUNCATE TABLE "classifieds" RESTART IDENTITY CASCADE`;
   await seedTaxonomy(prisma);
