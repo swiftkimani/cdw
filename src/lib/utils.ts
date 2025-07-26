@@ -1,4 +1,4 @@
-import { ClassifiedFilterSchema } from "@/app/schemas/classified.schema";
+import { ClassifiedFilterSchema } from "../app/schemas/classified.schemas";
 import type { AwaitedPageProps } from "@/config/types";
 import {
   BodyType,
