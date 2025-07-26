@@ -4,7 +4,8 @@ import { routes } from "./routes";
 
 export const imageSources = {
   classifiedPlaceholder:
-    "https://majestic-motors.s3.eu-west-2.amazonaws.com/uploads/classified-placeholder.jpeg",
+    "https://swiftkimani-motors.s3.eu-north-1.amazonaws.com/uploads/AdobeStock_197763326.jpeg",
+  // classifiedPlaceholder: "https://swiftkimani-motors.imgix.net/classified-placeholder.jpeg",
   carLinup:
     "https://majestic-motors.s3.eu-west-2.amazonaws.com/uploads/car-lineup.jpeg",
   featureSection:
