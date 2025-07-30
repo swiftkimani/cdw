@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn } from "../../../auth";
 import { routes } from "@/config/routes";
 import type { PrevState } from "@/config/types";
 import { genericRateLimit } from "@/lib/rate-limiter";
