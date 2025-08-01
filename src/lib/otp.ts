@@ -73,6 +73,7 @@ export async function completeChallenge(userId: string, code: string) {
   }
   return {
     succcess: false,
+    
     message: "Challenge does not exist - please try again",
   };
 }
