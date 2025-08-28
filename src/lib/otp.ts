@@ -1,4 +1,4 @@
-import ChallengeEmail from "@/emails/challenge";
+import ChallengeEmail from "../../emails/challenge";
 import { env } from "@/env";
 import { bcryptPasswordCompare, bcryptPasswordHash } from "./bcrypt";
 import { prisma } from "./prisma";
