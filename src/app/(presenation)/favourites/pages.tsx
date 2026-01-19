@@ -19,7 +19,12 @@ export default async function FavouritesPage(props: PageProps) {
 	const offset = (page - 1) * CLASSIFIEDS_PER_PAGE;
 
 	const sourceId = await getSourceId();
-	const favourites = await redis.get<Favourites>(sourceId ?? "");
+	let favourites: Favourites | null = null;
+	try {
+		favourites = await redis.get<Favourites>(sourceId ?? "");
+	} catch (error) {
+		console.warn("Redis connection failed, using empty favourites");
+	}
 
 	const classifieds = await prisma.classified.findMany({
 		where: { id: { in: favourites ? favourites.ids : [] } },

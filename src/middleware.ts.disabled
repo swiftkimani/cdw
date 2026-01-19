@@ -1,5 +1,5 @@
 import { auth } from "../auth";
-import { env } from "@/env";
+// Using process.env directly for edge runtime compatibility
 import { NextResponse } from "next/server";
 import { routes } from "./config/routes";
 
@@ -18,7 +18,7 @@ function setRequestHeaders(requestHeaders: Headers) {
       upgrade-insecure-requests;
   `;
 
-  requestHeaders.set("x-auth-token", `Bearer ${env.X_AUTH_TOKEN}`);
+  requestHeaders.set("x-auth-token", `Bearer ${process.env.X_AUTH_TOKEN}`);
 
   const contentSecurityPolicy = cspHeader.replace(/\s{2,}/g, " ").trim();
   requestHeaders.set("x-nonce", nonce);

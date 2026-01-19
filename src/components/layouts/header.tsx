@@ -14,7 +14,12 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 export const PublicHeader = async () => {
   const session = await auth();
   const sourceId = await getSourceId();
-  const favourites = await redis.get<Favourites>(sourceId ?? "");
+  let favourites: Favourites | null = null;
+  try {
+    favourites = await redis.get<Favourites>(sourceId ?? "");
+  } catch (error) {
+    console.warn("Redis connection failed, using empty favourites");
+  }
   return (
     <header className="flex items-center justify-between h-16 px-4 bg-transparent gap-x-6">
       <div className="flex items-center flex-1">

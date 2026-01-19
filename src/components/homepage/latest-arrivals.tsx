@@ -13,7 +13,12 @@ export const LatestArrivals = async () => {
   });
 
   const sourceId = await getSourceId();
-  const favourites = await redis.get<Favourites>(sourceId || "");
+  let favourites: Favourites | null = null;
+  try {
+    favourites = await redis.get<Favourites>(sourceId || "");
+  } catch (error) {
+    console.warn("Redis connection failed, using empty favourites");
+  }
   return (
     <section className="py-16 sm:py-24">
       <div className="container mx-auto max-w-[80vw]">
