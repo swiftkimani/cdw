@@ -68,7 +68,8 @@
     "thumbhash": "^0.1.1",
     "unlazy": "^0.12.4",
     "uuid": "^11.1.0",
-    "zod": "^4.0.13"
+    "zod": "^4.0.13",
+    "zod-form-data": "^3.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

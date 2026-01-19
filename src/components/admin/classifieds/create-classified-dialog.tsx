@@ -5,7 +5,7 @@ import { ClassifiedAISchema } from "@/app/schemas/classified-ai.schema";
 import {
   SingleImageSchema,
   type SingleImageType,
-} from "@/app/schemas/images.schema";
+} from "@/app/schemas/images.schemas";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
