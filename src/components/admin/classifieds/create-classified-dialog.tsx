@@ -1,6 +1,5 @@
 "use client";
 
-import type { AI } from "@/app/_actions/ai";
 import { createClassifiedAction } from "@/app/_actions/classified";
 import { ClassifiedAISchema } from "@/app/schemas/classified-ai.schema";
 import {
@@ -19,20 +18,22 @@ import { Form } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { readStreamableValue, useActions, useUIState } from "ai/rsc";
 import { Loader2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { ImageUploader } from "./single-image-uploader";
-import type { StreamableSkeletonProps } from "./streamable-skeleton";
+import {
+  StreamableSkeleton,
+  type StreamableSkeletonProps,
+} from "./streamable-skeleton";
 
 export const CreateClassifiedDialog = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploading, startUploadTransition] = useTransition();
   const [isCreating, startCreateTransition] = useTransition();
-  const { generateClassified } = useActions<typeof AI>();
-  const [messages, setMessages] = useUIState<typeof AI>();
+  const [classifiedData, setClassifiedData] =
+    useState<StreamableSkeletonProps | null>(null);
 
   const imageForm = useForm<SingleImageType>({
     resolver: zodResolver(SingleImageSchema),
@@ -58,20 +59,42 @@ export const CreateClassifiedDialog = () => {
 
   const onImageSubmit: SubmitHandler<SingleImageType> = (data) => {
     startUploadTransition(async () => {
-      const responseMessage = await generateClassified(data.image);
-      if (!responseMessage) return;
-      setMessages((currentMessages) => [...currentMessages, responseMessage]);
-      for await (const value of readStreamableValue(
-        responseMessage.classified
-      )) {
-        if (value) createForm.reset(value);
+      try {
+        // Call the new API route
+        const response = await fetch("/api/generate-classified", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: data.image }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to generate classified");
+        }
+
+        const result = await response.json();
+
+        // Update the form and display the result
+        setClassifiedData(result);
+        createForm.reset(result);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description:
+            error instanceof Error
+              ? error.message
+              : "Failed to generate classified",
+          type: "background",
+          duration: 2500,
+          variant: "destructive",
+        });
       }
     });
   };
 
   const onCreateSubmit: SubmitHandler<StreamableSkeletonProps> = (data) => {
     startCreateTransition(async () => {
-      setMessages([]);
+      setClassifiedData(null);
       const { success, message } = await createClassifiedAction(data);
 
       if (!success) {
@@ -85,7 +108,15 @@ export const CreateClassifiedDialog = () => {
 
         return;
       }
+
+      // Close modal on success
+      setIsModalOpen(false);
     });
+  };
+
+  const handleCancel = () => {
+    setClassifiedData(null);
+    setIsModalOpen(false);
   };
 
   return (
@@ -99,21 +130,16 @@ export const CreateClassifiedDialog = () => {
         <DialogHeader>
           <DialogTitle>Create New Classified</DialogTitle>
         </DialogHeader>
-        {messages.length ? (
+        {classifiedData ? (
           <Form {...createForm}>
             <form
               className="space-y-4"
               onSubmit={createForm.handleSubmit(onCreateSubmit)}>
-              {messages.map((message) => (
-                <div className="w-full" key={message.id}>
-                  {message.display}
-                </div>
-              ))}
+              <div className="w-full">
+                <StreamableSkeleton {...classifiedData} done={true} />
+              </div>
               <div className="flex justify-between gap-2">
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}>
+                <Button variant="outline" type="button" onClick={handleCancel}>
                   Cancel
                 </Button>
                 <Button
@@ -135,10 +161,7 @@ export const CreateClassifiedDialog = () => {
               onSubmit={imageForm.handleSubmit(onImageSubmit)}>
               <ImageUploader onUploadComplete={handleImageUpload} />
               <div className="flex justify-between gap-2">
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}>
+                <Button variant="outline" type="button" onClick={handleCancel}>
                   Cancel
                 </Button>
                 <Button
@@ -146,7 +169,7 @@ export const CreateClassifiedDialog = () => {
                   type="submit"
                   className="flex items-center gap-x-2">
                   {isUploading && <Loader2 className="animate-spin h-4 w-4" />}
-                  Upload
+                  {isUploading ? "Generating..." : "Upload"}
                 </Button>
               </div>
             </form>
