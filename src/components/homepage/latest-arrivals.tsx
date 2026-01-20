@@ -1,6 +1,5 @@
-import type { Favourites } from "@/config/types";
+import { getFavouriteIds } from "@/lib/favourites-db";
 import { prisma } from "@/lib/prisma";
-import { redis } from "@/lib/redis-store";
 import { getSourceId } from "@/lib/source-id";
 import { ClassifiedStatus } from "@prisma/client";
 import { LatestArrivalsCarousel } from "./latest-arrivals-carousel";
@@ -13,12 +12,8 @@ export const LatestArrivals = async () => {
   });
 
   const sourceId = await getSourceId();
-  let favourites: Favourites | null = null;
-  try {
-    favourites = await redis.get<Favourites>(sourceId || "");
-  } catch (error) {
-    console.warn("Redis connection failed, using empty favourites");
-  }
+  const favouriteIds = sourceId ? await getFavouriteIds(sourceId) : [];
+
   return (
     <section className="py-16 sm:py-24">
       <div className="container mx-auto max-w-[80vw]">
@@ -27,9 +22,10 @@ export const LatestArrivals = async () => {
         </h2>
         <LatestArrivalsCarousel
           classifieds={classifieds}
-          favourites={favourites ? favourites.ids : []}
+          favourites={favouriteIds}
         />
       </div>
     </section>
   );
 };
+

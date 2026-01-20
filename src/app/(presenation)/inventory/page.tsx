@@ -6,9 +6,9 @@ import { Sidebar } from "@/components/inventory/sidebar";
 import { CustomPagination } from "@/components/shared/custom-pagination";
 import { CLASSIFIEDS_PER_PAGE } from "@/config/constants";
 import { routes } from "@/config/routes";
-import type { AwaitedPageProps, Favourites, PageProps } from "@/config/types";
+import type { AwaitedPageProps, PageProps } from "@/config/types";
+import { getFavouriteIds } from "@/lib/favourites-db";
 import { prisma } from "@/lib/prisma";
-import { redis } from "@/lib/redis-store";
 import { getSourceId } from "@/lib/source-id";
 import { buildClassifiedFilterQuery } from "@/lib/utils";
 import { ClassifiedStatus } from "@prisma/client";
@@ -53,12 +53,7 @@ export default async function InventoryPage(props: PageProps) {
   });
 
   const sourceId = await getSourceId();
-  let favourites: Favourites | null = null;
-  try {
-    favourites = await redis.get<Favourites>(sourceId ?? "");
-  } catch (error) {
-    console.warn("Redis connection failed, using empty favourites");
-  }
+  const favouriteIds = sourceId ? await getFavouriteIds(sourceId) : [];
   const totalPages = Math.ceil(count / CLASSIFIEDS_PER_PAGE);
 
   return (
@@ -93,7 +88,7 @@ export default async function InventoryPage(props: PageProps) {
         <Suspense fallback={<InventorySkeleton />}>
           <ClassifiedsList
             classifieds={classifieds}
-            favourites={favourites ? favourites.ids : []}
+            favourites={favouriteIds}
           />
         </Suspense>
 

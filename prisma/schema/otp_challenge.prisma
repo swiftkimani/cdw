@@ -1,0 +1,12 @@
+model OtpChallenge {
+  id        String   @id @default(cuid())
+  userId    String   @unique @map("user_id")
+  codeHash  String   @map("code_hash")
+  email     String
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("otp_challenges")
+}

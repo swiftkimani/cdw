@@ -1,8 +1,7 @@
 import { auth } from "@/auth";
 import { navLinks } from "@/config/constants";
 import { routes } from "@/config/routes";
-import type { Favourites } from "@/config/types";
-import { redis } from "@/lib/redis-store";
+import { getFavouriteIds } from "@/lib/favourites-db";
 import { getSourceId } from "@/lib/source-id";
 import { HeartIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
@@ -14,12 +13,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 export const PublicHeader = async () => {
   const session = await auth();
   const sourceId = await getSourceId();
-  let favourites: Favourites | null = null;
-  try {
-    favourites = await redis.get<Favourites>(sourceId ?? "");
-  } catch (error) {
-    console.warn("Redis connection failed, using empty favourites");
-  }
+  const favouriteIds = sourceId ? await getFavouriteIds(sourceId) : [];
   return (
     <header className="flex items-center justify-between h-16 px-4 bg-transparent gap-x-6">
       <div className="flex items-center flex-1">
@@ -62,7 +56,7 @@ export const PublicHeader = async () => {
             </div>
             <div className="absolute -top-1 5 -right-1.5 flex items-center justify-center w-5 h-5 text-white bg-pink-500 rounded-full group-hover:bg-primary">
               <span className="text-xs">
-                {favourites ? favourites.ids.length : 0}
+                {favouriteIds.length}
               </span>
             </div>
           </Link>
