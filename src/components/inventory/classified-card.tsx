@@ -11,7 +11,7 @@ import {
   formatTransmission,
 } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { Cog, Fuel, GaugeCircle, Paintbrush2 } from "lucide-react";
+import { Cog, Fuel, GaugeCircle, ImageOff, Paintbrush2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -75,17 +75,23 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           className="bg-white dark:bg-gray-800 relative rounded-md shadow-md dark:shadow-gray-900/30 overflow-hidden flex flex-col border border-gray-100 dark:border-gray-700">
-          <div className="aspect-3/2 relative">
+          <div className="aspect-3/2 relative bg-gray-100 dark:bg-gray-700">
             <Link href={routes.singleClassified(classified.slug)}>
-              <ImgixImage
-                placeholder="blur"
-                blurDataURL={classified.images[0]?.blurhash}
-                src={classified.images[0]?.src}
-                alt={classified.images[0]?.alt}
-                className="object-cover rounded-t-md"
-                fill={true}
-                quality={25}
-              />
+              {classified.images[0]?.src ? (
+                <ImgixImage
+                  placeholder="blur"
+                  blurDataURL={classified.images[0]?.blurhash || "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="}
+                  src={classified.images[0].src}
+                  alt={classified.images[0]?.alt ?? classified.title}
+                  className="object-cover rounded-t-md"
+                  fill={true}
+                  quality={25}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <ImageOff className="w-12 h-12 text-gray-400 dark:text-gray-500" />
+                </div>
+              )}
             </Link>
             <FavouriteButton
               setIsFavourite={setIsFavourite}
