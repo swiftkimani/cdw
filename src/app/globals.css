@@ -100,21 +100,43 @@
     --popover-foreground: 210 20% 10%;
     --primary-foreground: 0 0% 100%;
     --accent-foreground: 0 0% 100%;
-    --muted-foreground: 210 20% 10%;
+    --muted-foreground: 210 20% 40%;
     --card-foreground: 210 20% 10%;
     --destructive: 0 80% 60%;
-    --background: 210 20% 96%;
+    --background: 0 0% 100%;
     --foreground: 210 20% 10%;
     --secondary: 40 90% 60%;
-    --popover: 210 10% 86%;
+    --popover: 0 0% 100%;
     --primary: 210 70% 50%;
-    --border: 210 10% 59%;
-    --accent: 0 70% 50%;
-    --muted: 210 10% 86%;
-    --input: 210 10% 63%;
-    --card: 210 20% 96%;
+    --border: 210 10% 85%;
+    --accent: 210 70% 50%;
+    --muted: 210 10% 96%;
+    --input: 210 10% 85%;
+    --card: 0 0% 100%;
     --ring: 210 70% 50%;
     --radius: 0.5rem;
+  }
+
+  .dark {
+    --destructive-foreground: 0 0% 100%;
+    --secondary-foreground: 0 0% 100%;
+    --popover-foreground: 0 0% 95%;
+    --primary-foreground: 0 0% 100%;
+    --accent-foreground: 0 0% 100%;
+    --muted-foreground: 210 10% 60%;
+    --card-foreground: 0 0% 95%;
+    --destructive: 0 70% 50%;
+    --background: 222 47% 8%;
+    --foreground: 0 0% 95%;
+    --secondary: 40 90% 60%;
+    --popover: 222 47% 11%;
+    --primary: 210 70% 50%;
+    --border: 217 32% 17%;
+    --accent: 210 70% 50%;
+    --muted: 217 32% 15%;
+    --input: 217 32% 17%;
+    --card: 222 47% 11%;
+    --ring: 210 70% 50%;
   }
 
   *,
@@ -139,23 +161,7 @@
   }
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* Custom select styling */
 
 .custom-select {
   -moz-appearance: none;
