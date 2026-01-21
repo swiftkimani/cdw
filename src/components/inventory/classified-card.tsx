@@ -74,7 +74,8 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="bg-white dark:bg-gray-800 relative rounded-md shadow-md dark:shadow-gray-900/30 overflow-hidden flex flex-col border border-gray-100 dark:border-gray-700">
+          whileHover={{ y: -4, scale: 1.01 }}
+          className="bg-white dark:bg-gray-800 relative rounded-xl shadow-lg dark:shadow-gray-900/40 overflow-hidden flex flex-col border border-gray-100 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-gray-900/60 transition-shadow duration-300 cursor-pointer">
           <div className="aspect-3/2 relative bg-gray-100 dark:bg-gray-700">
             <Link href={routes.singleClassified(classified.slug)}>
               {classified.images[0]?.src ? (

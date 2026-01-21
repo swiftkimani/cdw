@@ -215,16 +215,10 @@ export const generateTimeOptions = () => {
   const endHour = 18;
 
   for (let hour = startHour; hour < endHour; hour++) {
-    const date = new Date();
-    date.setDate(date.getDate() + 1);
-    date.setHours(hour);
-    date.setMinutes(0);
-
-    const formattedTime = date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
+    // Use explicit formatting instead of toLocaleTimeString to avoid hydration mismatch
+    const hour12 = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+    const ampm = hour >= 12 ? "pm" : "am";
+    const formattedTime = `${hour12.toString().padStart(2, "0")}:00 ${ampm}`;
 
     times.push({
       label: formattedTime,
