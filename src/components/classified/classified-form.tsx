@@ -49,7 +49,7 @@ export const ClassifiedForm = ({ classified }: ClassifiedFormProps) => {
     defaultValues: {
       id: classified.id,
       odoUnit: OdoUnit.MILES,
-      currency: CurrencyCode.GBP,
+      currency: CurrencyCode.USD,
       ...(classified && {
         images: classified.images
           ? classified.images.map((image, index) => ({

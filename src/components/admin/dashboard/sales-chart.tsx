@@ -15,7 +15,6 @@ import {
   BarChart,
   ResponsiveContainer,
   Tooltip,
-  type TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
@@ -79,12 +78,16 @@ const CustomTooltip = ({
   active,
   payload,
   label,
-}: TooltipProps<number, string>) => {
+}: {
+  active?: boolean;
+  payload?: Array<{ value?: number }>;
+  label?: string;
+}) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-gray-800 border border-gray-700 p-2 rounded">
         <p className="text-gray-100">
-          {`${label}: ${formatPrice({ price: payload[0].value as number, currency: "GBP" })}`}
+          {`${label}: ${formatPrice({ price: payload[0].value as number, currency: "USD" })}`}
         </p>
       </div>
     );

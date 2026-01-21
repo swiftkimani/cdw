@@ -3,85 +3,159 @@ import { navLinks } from "@/config/constants";
 import { routes } from "@/config/routes";
 import { getFavouriteIds } from "@/lib/favourites-db";
 import { getSourceId } from "@/lib/source-id";
-import { HeartIcon, MenuIcon } from "lucide-react";
-import Image from "next/image";
+import { HeartIcon, MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { SignOutForm } from "../auth/sign-out-form";
 import { Button } from "../ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+
+// Calligraphy Logo Component
+const CalligraphyLogo = () => (
+  <span className="font-serif text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm italic select-none">
+    swiftkimani
+  </span>
+);
 
 export const PublicHeader = async () => {
   const session = await auth();
   const sourceId = await getSourceId();
   const favouriteIds = sourceId ? await getFavouriteIds(sourceId) : [];
+  
   return (
-    <header className="flex items-center justify-between h-16 px-4 bg-transparent gap-x-6">
-      <div className="flex items-center flex-1">
-        <Link href={routes.home} className="flex items-center gap-2">
-          <Image
-            width={300}
-            height={100}
-            alt="logo"
-            className="relative"
-            src="/logo.svg"
-          />
-        </Link>
-      </div>
-      <nav className="hidden md:block">
-        {navLinks.map((link) => (
-          <Link
-            className="group font-heading rounded px-3 py-2 text-base text-foreground hover:text-primary duration-300 transition-all ease-in-out font-semibold uppercase"
-            href={link.href}
-            key={link.id}>
-            {link.label}
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 py-3 md:px-8">
+      {/* Glassmorphism Container */}
+      <div className="mx-auto max-w-7xl">
+        <nav className="flex items-center justify-between px-6 py-3 rounded-2xl backdrop-blur-xl bg-white/70 border border-white/20 shadow-lg shadow-black/5">
+          {/* Logo */}
+          <Link 
+            href={routes.home} 
+            className="flex items-center gap-2 group transition-transform duration-300 hover:scale-105"
+          >
+            <CalligraphyLogo />
           </Link>
-        ))}
-      </nav>
-      {session ? (
-        <div className="items-center md:flex gap-x-6 hidden">
-          <Link href={routes.admin.dashboard} className="text-foreground">
-            Backoffice
-          </Link>
-          <SignOutForm />
-        </div>
-      ) : (
-        <Button
-          asChild
-          variant="ghost"
-          size="icon"
-          className="relative inline-block group">
-          <Link href={routes.favourites}>
-            <div className="flex group-hover:bg-pink-500 diratopm-200 transition-colors ease-in-out items-center justify-center w-10 h-10 bg-muted rounded-full">
-              <HeartIcon className="w-6 h-6 text-primary group-hover:text-white group-hover:fill-white" />
-            </div>
-            <div className="absolute -top-1 5 -right-1.5 flex items-center justify-center w-5 h-5 text-white bg-pink-500 rounded-full group-hover:bg-primary">
-              <span className="text-xs">
-                {favouriteIds.length}
-              </span>
-            </div>
-          </Link>
-        </Button>
-      )}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="link" size="icon" className="md:hidden border-none">
-            <MenuIcon className="h-6 w-6 text-primary" />
-            <SheetTitle className="sr-only">Toggle nav menu</SheetTitle>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="w-full max-w-xs p-4 bg-white">
-          <nav className="grid gap-2">
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
-                className="flex items-center gap-2 py-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+                className="relative px-4 py-2 text-sm font-medium text-gray-700 rounded-xl transition-all duration-300 hover:text-blue-600 hover:bg-blue-50/80 group"
                 href={link.href}
-                key={link.id}>
-                {link.label}
+                key={link.id}
+              >
+                <span className="relative z-10">{link.label}</span>
+                <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-300" />
               </Link>
             ))}
-          </nav>
-        </SheetContent>
-      </Sheet>
+          </div>
+
+          {/* Right Side Actions */}
+          <div className="flex items-center gap-3">
+            {session ? (
+              <div className="hidden md:flex items-center gap-4">
+                <Link 
+                  href={routes.admin.dashboard} 
+                  className="px-4 py-2 text-sm font-medium text-gray-700 rounded-xl transition-all duration-300 hover:text-blue-600 hover:bg-blue-50/80"
+                >
+                  Backoffice
+                </Link>
+                <SignOutForm />
+              </div>
+            ) : (
+              <Link 
+                href={routes.favourites}
+                className="relative p-2 rounded-xl transition-all duration-300 hover:bg-pink-50/80 group"
+              >
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 group-hover:from-pink-200 group-hover:to-rose-200 transition-all duration-300">
+                  <HeartIcon className="w-5 h-5 text-pink-500 group-hover:text-pink-600 transition-colors" />
+                </div>
+                {favouriteIds.length > 0 && (
+                  <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-5 h-5 px-1.5 text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-full shadow-lg">
+                    {favouriteIds.length}
+                  </span>
+                )}
+              </Link>
+            )}
+
+            {/* Mobile Menu Button */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="md:hidden rounded-xl hover:bg-gray-100/80 transition-all duration-300"
+                >
+                  <MenuIcon className="h-5 w-5 text-gray-700" />
+                  <SheetTitle className="sr-only">Toggle navigation menu</SheetTitle>
+                </Button>
+              </SheetTrigger>
+              <SheetContent 
+                side="right" 
+                className="w-full max-w-sm p-0 backdrop-blur-2xl bg-white/90 border-l border-white/30"
+              >
+                {/* Mobile Menu Header */}
+                <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                  <CalligraphyLogo />
+                  <SheetClose asChild>
+                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100/80">
+                      <XIcon className="h-5 w-5 text-gray-500" />
+                    </Button>
+                  </SheetClose>
+                </div>
+                
+                {/* Mobile Navigation Links */}
+                <nav className="flex flex-col p-6 gap-2">
+                  {navLinks.map((link) => (
+                    <SheetClose asChild key={link.id}>
+                      <Link
+                        className="flex items-center px-4 py-3 text-base font-medium text-gray-700 rounded-xl transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600"
+                        href={link.href}
+                      >
+                        {link.label}
+                      </Link>
+                    </SheetClose>
+                  ))}
+                  
+                  {/* Mobile Session Links */}
+                  {session ? (
+                    <>
+                      <div className="h-px bg-gray-200 my-4" />
+                      <SheetClose asChild>
+                        <Link
+                          href={routes.admin.dashboard}
+                          className="flex items-center px-4 py-3 text-base font-medium text-gray-700 rounded-xl transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600"
+                        >
+                          Backoffice
+                        </Link>
+                      </SheetClose>
+                      <div className="px-4 pt-2">
+                        <SignOutForm />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="h-px bg-gray-200 my-4" />
+                      <SheetClose asChild>
+                        <Link
+                          href={routes.favourites}
+                          className="flex items-center gap-3 px-4 py-3 text-base font-medium text-gray-700 rounded-xl transition-all duration-300 hover:bg-gradient-to-r hover:from-pink-50 hover:to-rose-50 hover:text-pink-600"
+                        >
+                          <HeartIcon className="w-5 h-5" />
+                          Favourites
+                          {favouriteIds.length > 0 && (
+                            <span className="ml-auto flex items-center justify-center min-w-6 h-6 px-2 text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-full">
+                              {favouriteIds.length}
+                            </span>
+                          )}
+                        </Link>
+                      </SheetClose>
+                    </>
+                  )}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 };

@@ -14,6 +14,9 @@ import { routes } from "@/config/routes";
 import type { CustomerKeys, PageProps } from "@/config/types";
 import { prisma } from "@/lib/prisma";
 
+// Opt out of static generation for this page as client components use useSearchParams
+export const dynamic = "force-dynamic";
+
 export default async function CustomersPage(props: PageProps) {
   const searchParams = await props.searchParams;
 

@@ -5,7 +5,7 @@ import { ClassifiedAISchema } from "@/app/schemas/classified-ai.schema";
 import {
   SingleImageSchema,
   type SingleImageType,
-} from "@/app/schemas/images.schemas";
+} from "@/app/schemas/images.schema";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -50,7 +50,7 @@ export const CreateClassifiedDialog = () => {
           updatedAt: z.date(),
         }),
       })
-    ),
+    ) as any,
   });
 
   const handleImageUpload = (url: string) => {

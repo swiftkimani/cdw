@@ -11,7 +11,6 @@ import {
 
 const openai = createOpenAI({
   apiKey: env.OPENAI_API_KEY,
-  compatibility: "strict",
 });
 
 export async function POST(request: Request) {
@@ -27,7 +26,7 @@ export async function POST(request: Request) {
 
     // Step 1: Generate taxonomy (make, model, year, etc.)
     const { object: taxonomy } = await generateObject({
-      model: openai("gpt-4o-mini-2024-07-18", { structuredOutputs: true }),
+      model: openai("gpt-4o-mini-2024-07-18"),
       schema: ClassifiedTaxonomyAISchema,
       system:
         "You are an expert at analysing images of vehicles and responding with a structured JSON object based on the schema provided",
@@ -80,7 +79,7 @@ export async function POST(request: Request) {
 
     // Step 2: Generate details (odometer, fuel type, etc.)
     const { object: details } = await generateObject({
-      model: openai("gpt-4o-mini-2024-07-18", { structuredOutputs: true }),
+      model: openai("gpt-4o-mini-2024-07-18"),
       schema: ClassifiedDetailsAISchema,
       system:
         "You are an expert at writing vehicle descriptions and generating structured data",

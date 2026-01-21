@@ -5,6 +5,9 @@ import { calculatePercentageChange } from "@/lib/utils";
 import { ClassifiedStatus, CustomerStatus } from "@prisma/client";
 import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
 
+// Opt out of static generation for this page as client components use useSearchParams
+export const dynamic = "force-dynamic";
+
 async function getDashboardData() {
   const now = new Date();
   const startOfThisMonth = startOfMonth(now);

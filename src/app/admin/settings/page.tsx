@@ -1,5 +1,8 @@
 import { SettingsPageContent } from "@/components/settings/content";
 
+// Opt out of static generation for this page as client components use useSearchParams
+export const dynamic = "force-dynamic";
+
 export default function SettingsPage() {
   return (
     <>

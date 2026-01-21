@@ -62,7 +62,7 @@ export const createClassifiedAction = async (data: StreamableSkeletonProps) => {
         }),
         vrm: data?.vrm ? data.vrm : null,
         price: 0,
-        currency: CurrencyCode.GBP,
+        currency: CurrencyCode.USD,
         odoReading: data.odoReading,
         odoUnit: data.odoUnit,
         fuelType: data.fuelType,

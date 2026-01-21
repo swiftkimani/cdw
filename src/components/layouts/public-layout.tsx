@@ -6,7 +6,7 @@ export function PublicLayout({ children }: PropsWithChildren) {
   return (
     <>
       <PublicHeader />
-      <main className="bg-white">{children}</main>
+      <main className="bg-white pt-20">{children}</main>
       <PublicFooter />
     </>
   );

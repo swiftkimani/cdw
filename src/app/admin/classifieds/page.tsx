@@ -14,6 +14,9 @@ import type { ClassifiedKeys, PageProps } from "@/config/types";
 import { prisma } from "@/lib/prisma";
 import { ClassifiedsTableHeader } from "../../../components/classified/classifieds-table-header";
 
+// Opt out of static generation for this page as client components use useSearchParams
+export const dynamic = "force-dynamic";
+
 export default async function ClassifiedsPage(props: PageProps) {
   const searchParams = await props.searchParams;
 
