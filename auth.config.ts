@@ -32,24 +32,41 @@ export const config = {
 			},
 			authorize: async (credentials): Promise<User | null> => {
 				try {
+					console.log("🔐 authorize called with email:", credentials?.email);
 					const validatedFields = SignInSchema.safeParse(credentials);
 
-					if (!validatedFields.success) return null;
+					if (!validatedFields.success) {
+						console.log("❌ Validation failed:", validatedFields.error);
+						return null;
+					}
+
+					console.log("✅ Validation passed for:", validatedFields.data.email);
 
 					const user = await prisma.user.findUnique({
 						where: { email: validatedFields.data.email },
 						select: { id: true, email: true, hashedPassword: true },
 					});
 
-					if (!user) return null;
+					if (!user) {
+						console.log("❌ User not found in database");
+						return null;
+					}
+
+					console.log("✅ User found:", user.email);
 
 					const match = await bcryptPasswordCompare(
 						validatedFields.data.password,
 						user.hashedPassword,
 					);
 
-					if (!match) return null;
+					console.log("🔑 Password match result:", match);
 
+					if (!match) {
+						console.log("❌ Password mismatch");
+						return null;
+					}
+
+					console.log("✅ Password matched, issuing challenge...");
 					await issueChallenge(user.id, user.email);
 
 					const dbUser = await prisma.user.findUnique({
@@ -57,9 +74,10 @@ export const config = {
 						omit: { hashedPassword: true },
 					});
 
+					console.log("✅ Returning user with requires2FA: true");
 					return { ...dbUser, requires2FA: true };
 				} catch (error) {
-					console.log({ error });
+					console.log("❌ Auth error:", error);
 					return null;
 				}
 			},

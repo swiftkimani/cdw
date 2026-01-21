@@ -22,6 +22,14 @@ export async function issueChallenge(userId: string, email: string) {
     create: { userId, codeHash: hash, email, expiresAt },
   });
 
+  // In development, skip email and log code to console
+  if (process.env.NODE_ENV === "development") {
+    console.log("\n🔐 ==========================================");
+    console.log(`   2FA CODE FOR ${email}: ${code}`);
+    console.log("   ==========================================\n");
+    return;
+  }
+
   const { error } = await resend.emails.send({
     from: env.FROM_EMAIL_ADDRESS,
     to: email,
