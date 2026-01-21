@@ -3,16 +3,16 @@ import { navLinks } from "@/config/constants";
 import { routes } from "@/config/routes";
 import { getFavouriteIds } from "@/lib/favourites-db";
 import { getSourceId } from "@/lib/source-id";
-import { HeartIcon, MenuIcon, XIcon } from "lucide-react";
+import { HeartIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { SignOutForm } from "../auth/sign-out-form";
 import { ThemeToggle } from "../theme-toggle";
 import { Button } from "../ui/button";
+import { NavLink } from "../ui/nav-link";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 
-// Calligraphy Logo Component
 const CalligraphyLogo = () => (
-  <span className="font-serif text-xl sm:text-2xl md:text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm italic select-none whitespace-nowrap">
+  <span className="font-serif text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent italic">
     swiftkimani
   </span>
 );
@@ -21,146 +21,139 @@ export const PublicHeader = async () => {
   const session = await auth();
   const sourceId = await getSourceId();
   const favouriteIds = sourceId ? await getFavouriteIds(sourceId) : [];
-  
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-2 sm:px-4 py-2 md:px-8 md:py-3 overflow-x-hidden">
-      {/* Glassmorphism Container */}
-      <div className="mx-auto max-w-7xl w-full">
-        <nav className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl backdrop-blur-xl bg-white/70 dark:bg-gray-900/70 border border-white/20 dark:border-gray-700/30 shadow-lg shadow-black/5 dark:shadow-black/20 gap-2">
-          {/* Logo */}
-          <Link 
-            href={routes.home} 
-            className="flex items-center gap-2 group transition-transform duration-300 hover:scale-105 shrink-0"
+    <header className="fixed top-0 left-0 w-full z-50 box-border">
+      <div className="w-full px-2 py-2 md:px-4 md:py-3">
+        <nav className="w-full max-w-5xl mx-auto flex items-center justify-between px-3 py-2.5 md:py-3 rounded-xl md:rounded-2xl bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-md">
+          {/* Logo - Left Section */}
+          <Link
+            href={routes.home}
+            className="flex-shrink-0 min-w-0 truncate max-w-[120px] sm:max-w-none md:flex-1"
           >
             <CalligraphyLogo />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                className="relative px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 rounded-xl transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-blue-900/30 group"
-                href={link.href}
-                key={link.id}
-              >
-                <span className="relative z-10">{link.label}</span>
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-300" />
-              </Link>
-            ))}
+          {/* Desktop Navigation - Centered Section */}
+          <div className="hidden md:flex items-center justify-center flex-1">
+            <div className="flex items-center gap-1">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.id}
+                  href={link.href}
+                  className="px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 whitespace-nowrap flex-shrink-0"
+                  activeClassName="!bg-blue-100 dark:!bg-blue-900/50 !text-blue-600 dark:!text-blue-400"
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </div>
           </div>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-1 sm:gap-3 shrink-0">
-            {/* Theme Toggle - Always visible */}
-            <ThemeToggle />
+          {/* Actions - Right Section */}
+          <div className="flex items-center gap-1 flex-shrink-0 min-w-0 md:flex-1 md:justify-end">
+            <div className="flex items-center gap-1">
 
-            {session ? (
-              <div className="hidden md:flex items-center gap-4">
-                <Link 
-                  href={routes.admin.dashboard} 
-                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 rounded-xl transition-all duration-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-blue-900/30"
+              {!session && (
+                <Link
+                  href={routes.favourites}
+                  className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-pink-50 dark:hover:bg-pink-900/30 relative flex-shrink-0"
                 >
-                  Backoffice
+                  <HeartIcon className="w-5 h-5 text-pink-500" />
+                  {favouriteIds.length > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 text-[10px] font-bold text-white bg-pink-500 rounded-full flex items-center justify-center">
+                      {favouriteIds.length}
+                    </span>
+                  )}
                 </Link>
-                <SignOutForm />
-              </div>
-            ) : (
-              <Link 
-                href={routes.favourites}
-                className="relative p-1.5 sm:p-2 rounded-xl transition-all duration-300 hover:bg-pink-50/80 dark:hover:bg-pink-900/30 group hidden sm:flex"
-              >
-                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/50 dark:to-rose-900/50 group-hover:from-pink-200 group-hover:to-rose-200 dark:group-hover:from-pink-800/50 dark:group-hover:to-rose-800/50 transition-all duration-300">
-                  <HeartIcon className="w-4 h-4 sm:w-5 sm:h-5 text-pink-500 group-hover:text-pink-600 dark:text-pink-400 transition-colors" />
-                </div>
-                {favouriteIds.length > 0 && (
-                  <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-4 h-4 sm:min-w-5 sm:h-5 px-1 sm:px-1.5 text-[10px] sm:text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-full shadow-lg">
-                    {favouriteIds.length}
-                  </span>
-                )}
-              </Link>
-            )}
+              )}
+              <ThemeToggle />
 
-            {/* Mobile Menu Button */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="md:hidden rounded-xl hover:bg-gray-100/80 dark:hover:bg-gray-800/80 transition-all duration-300 h-9 w-9"
-                >
-                  <MenuIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />
-                  <SheetTitle className="sr-only">Toggle navigation menu</SheetTitle>
-                </Button>
-              </SheetTrigger>
-              <SheetContent 
-                side="right" 
-                className="w-[280px] sm:w-full sm:max-w-sm p-0 backdrop-blur-2xl bg-white/95 dark:bg-gray-900/95 border-l border-white/30 dark:border-gray-700/30"
-              >
-                {/* Mobile Menu Header */}
-                <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 dark:border-gray-800">
-                  <CalligraphyLogo />
-                  <SheetClose asChild>
-                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-gray-100/80 dark:hover:bg-gray-800/80">
-                      <XIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                    </Button>
-                  </SheetClose>
+
+              {/* Desktop Session Actions */}
+              {session && (
+                <div className="hidden md:flex items-center gap-1">
+                  <NavLink
+                    href={routes.admin.dashboard}
+                    className="px-3 py-2 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 whitespace-nowrap"
+                    activeClassName="!bg-blue-100 dark:!bg-blue-900/50 !text-blue-600 dark:!text-blue-400"
+                  >
+                    Backoffice
+                  </NavLink>
+                  <SignOutForm />
                 </div>
-                
-                {/* Mobile Navigation Links */}
-                <nav className="flex flex-col p-4 sm:p-6 gap-2">
-                  {navLinks.map((link) => (
-                    <SheetClose asChild key={link.id}>
-                      <Link
-                        className="flex items-center px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 rounded-xl transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:text-blue-600 dark:hover:text-blue-400"
-                        href={link.href}
-                      >
-                        {link.label}
-                      </Link>
-                    </SheetClose>
-                  ))}
-                  
-                  {/* Mobile Session Links */}
-                  {session ? (
-                    <>
-                      <div className="h-px bg-gray-200 dark:bg-gray-700 my-4" />
+              )}
+
+              {/* Mobile Menu Trigger */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="md:hidden h-9 w-9 rounded-lg flex-shrink-0"
+                  >
+                    <MenuIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+                    <SheetTitle className="sr-only">Menu</SheetTitle>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-64 p-0 bg-white dark:bg-gray-900 overflow-y-auto max-h-screen">
+                  <div className="p-4 border-b dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-10">
+                    <CalligraphyLogo />
+                  </div>
+                  <nav className="flex flex-col p-3 gap-1">
+                    {!session && (
                       <SheetClose asChild>
-                        <Link
-                          href={routes.admin.dashboard}
-                          className="flex items-center px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 rounded-xl transition-all duration-300 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/30 dark:hover:to-purple-900/30 hover:text-blue-600 dark:hover:text-blue-400"
-                        >
-                          Backoffice
-                        </Link>
-                      </SheetClose>
-                      <div className="px-4 pt-2">
-                        <SignOutForm />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="h-px bg-gray-200 dark:bg-gray-700 my-4" />
-                      <SheetClose asChild>
-                        <Link
+                        <NavLink
                           href={routes.favourites}
-                          className="flex items-center gap-3 px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-200 rounded-xl transition-all duration-300 hover:bg-gradient-to-r hover:from-pink-50 hover:to-rose-50 dark:hover:from-pink-900/30 dark:hover:to-rose-900/30 hover:text-pink-600 dark:hover:text-pink-400"
+                          className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                          activeClassName="!bg-pink-100 dark:!bg-pink-900/50 !text-pink-600 dark:!text-pink-400"
                         >
-                          <HeartIcon className="w-5 h-5" />
-                          Favourites
+                          <HeartIcon className="w-4 h-4 text-pink-500 flex-shrink-0" />
+                          <span className="truncate">Favourites</span>
                           {favouriteIds.length > 0 && (
-                            <span className="ml-auto flex items-center justify-center min-w-6 h-6 px-2 text-xs font-bold text-white bg-gradient-to-r from-pink-500 to-rose-500 rounded-full">
+                            <span className="ml-auto text-xs font-bold text-white bg-pink-500 px-1.5 py-0.5 rounded-full flex-shrink-0">
                               {favouriteIds.length}
                             </span>
                           )}
-                        </Link>
+                        </NavLink>
                       </SheetClose>
-                    </>
-                  )}
-                </nav>
-              </SheetContent>
-            </Sheet>
+                    )}
+
+                    <hr className="my-2 dark:border-gray-700" />
+                    {navLinks.map((link) => (
+                      <SheetClose asChild key={link.id}>
+                        <NavLink
+                          href={link.href}
+                          className="px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                          activeClassName="!bg-blue-100 dark:!bg-blue-900/50 !text-blue-600 dark:!text-blue-400"
+                        >
+                          {link.label}
+                        </NavLink>
+                      </SheetClose>
+                    ))}
+                    {session && (
+                      <>
+                        <SheetClose asChild>
+                          <NavLink
+                            href={routes.admin.dashboard}
+                            className="px-3 py-2.5 text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+                            activeClassName="!bg-blue-100 dark:!bg-blue-900/50 !text-blue-600 dark:!text-blue-400"
+                          >
+                            Backoffice
+                          </NavLink>
+                        </SheetClose>
+                        <div className="px-3 pt-2">
+                          <SignOutForm />
+                        </div>
+                      </>
+                    )}
+                  </nav>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </nav>
       </div>
     </header>
   );
 };
-

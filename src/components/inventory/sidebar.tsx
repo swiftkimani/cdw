@@ -93,16 +93,16 @@ export const Sidebar = ({ minMaxValues, searchParams }: SidebarProps) => {
   };
 
   return (
-    <div className="py-4 w-[21.25rem] bg-white border-r border-muted hidden lg:block">
+    <div className="py-4 w-[21.25rem] bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 hidden lg:block">
       <div>
-        <div className="text-lg font-semibold flex justify-between px-4">
+        <div className="text-lg font-semibold flex justify-between px-4 text-gray-900 dark:text-white">
           <span>Filters</span>
           <button
             type="button"
             onClick={clearFilters}
             aria-disabled={!filterCount}
             className={cn(
-              "text-sm text-gray-500 py-1",
+              "text-sm text-gray-500 dark:text-gray-400 py-1",
               !filterCount
                 ? "disabled opacity-50 pointer-events-none cursor-default"
                 : "hover:underline cursor-pointer"
@@ -115,10 +115,10 @@ export const Sidebar = ({ minMaxValues, searchParams }: SidebarProps) => {
       <div className="p-4">
         <SearchInput
           placeholder="Search classifieds..."
-          className="w-full px-3 py-2 border rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
         />
       </div>
-      <div className="p-4 space-y-2">
+      <div className="p-4 space-y-3">
         <TaxonomyFilters
           searchParams={searchParams}
           handleChange={handleChange}

@@ -74,7 +74,7 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="bg-white relative rounded-md shadow-md overflow-hiddem flex flex-col">
+          className="bg-white dark:bg-gray-800 relative rounded-md shadow-md dark:shadow-gray-900/30 overflow-hidden flex flex-col border border-gray-100 dark:border-gray-700">
           <div className="aspect-3/2 relative">
             <Link href={routes.singleClassified(classified.slug)}>
               <ImgixImage
@@ -101,36 +101,36 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
               </p>
             </div>
           </div>
-          <div className="p-4 flex flex-col space-y-3">
+          <div className="p-5 flex flex-col space-y-4">
             <div>
               <Link
                 href={routes.singleClassified(classified.slug)}
-                className="text-sm md:text-base lg:text-lg font-semibold line-clamp-1 transition-colors hover:text-primary">
+                className="text-sm md:text-base lg:text-lg font-semibold line-clamp-1 transition-colors hover:text-primary text-gray-900 dark:text-white">
                 {classified.title}
               </Link>
               {classified?.description && (
-                <div className="text-xs md:text-sm xl:text-base text-gray-500 line-clamp-2">
+                <div className="text-xs md:text-sm xl:text-base text-gray-500 dark:text-gray-400 line-clamp-2 mt-1">
                   <HTMLParser html={classified.description} />
                   &nbsp;{" "}
                   {/* Used for equal spacing across each card in the grid */}
                 </div>
               )}
 
-              <ul className="text-xs md:text-sm text-gray-600 xl:flex grid grid-cols-1 grid-rows-4 md:grid-cols-2 md:grid-rows-4 items-center justify-between w-full">
+              <ul className="text-xs md:text-sm text-gray-600 dark:text-gray-300 xl:flex grid grid-cols-1 grid-rows-4 md:grid-cols-2 md:grid-rows-4 items-center justify-between w-full mt-3">
                 {getKeyClassifiedInfo(classified)
                   .filter((v) => v.value)
                   .map(({ id, icon, value }) => (
                     <li
                       key={id}
-                      className="font-semibold flex xl:flex-col items-center gap-x-1.5">
+                      className="font-semibold flex xl:flex-col items-center gap-x-1.5 py-1">
                       {icon} {value}
                     </li>
                   ))}
               </ul>
             </div>
-            <div className="mt-4 flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:gap-x-2 w-full">
+            <div className="mt-4 flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:gap-x-3 w-full">
               <Button
-                className="flex-1 transition-colors hover:border-white hover:bg-primary hover:text-white py-2 lg:py-2.5 h-full text-xs md:text-sm xl:text-base"
+                className="flex-1 transition-all py-2.5 lg:py-3 h-full text-xs md:text-sm xl:text-base border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white hover:border-primary dark:hover:bg-primary dark:hover:border-primary"
                 asChild
                 variant="outline"
                 size="sm">
@@ -143,7 +143,7 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
                 </Link>
               </Button>
               <Button
-                className="flex-1 py-2 lg:py-2.5 h-full text-xs md:text-sm xl:text-base"
+                className="flex-1 py-2.5 lg:py-3 h-full text-xs md:text-sm xl:text-base bg-primary hover:bg-primary/90 text-white"
                 asChild
                 size="sm">
                 <Link href={routes.singleClassified(classified.slug)}>

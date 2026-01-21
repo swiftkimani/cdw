@@ -57,52 +57,54 @@ export default async function InventoryPage(props: PageProps) {
   const totalPages = Math.ceil(count / CLASSIFIEDS_PER_PAGE);
 
   return (
-    <div className="flex">
-      <Sidebar minMaxValues={minMaxResult} searchParams={searchParams} />
+    <div className="container mx-auto max-w-[95vw] lg:max-w-[90vw] xl:max-w-[85vw] py-6">
+      <div className="flex gap-6">
+        <Sidebar minMaxValues={minMaxResult} searchParams={searchParams} />
 
-      <div className="flex-1 p-4 bg-white">
-        <div className="flex space-y-2 items-center justify-between pb-4 -mt-1">
-          <div className="flex justify-between items-center w-full">
-            <h2 className="text-sm md:text-base lg:text-xl font-semibold min-w-fit">
-              We have found {count} classifieds
-            </h2>
-            <DialogFilters
-              minMaxValues={minMaxResult}
-              count={count}
-              searchParams={searchParams}
+        <div className="flex-1 p-4 md:p-6 bg-white dark:bg-gray-900 rounded-lg">
+          <div className="flex space-y-2 items-center justify-between pb-4 -mt-1">
+            <div className="flex justify-between items-center w-full">
+              <h2 className="text-sm md:text-base lg:text-xl font-semibold min-w-fit text-gray-900 dark:text-white">
+                We have found {count} classifieds
+              </h2>
+              <DialogFilters
+                minMaxValues={minMaxResult}
+                count={count}
+                searchParams={searchParams}
+              />
+            </div>
+            <CustomPagination
+              baseURL={routes.inventory}
+              totalPages={totalPages}
+              styles={{
+                paginationRoot: "justify-end hidden lg:flex",
+                paginationPrevious: "",
+                paginationNext: "",
+                paginationLink: "border-none active:border text-gray-900 dark:text-white",
+                paginationLinkActive: "",
+              }}
             />
           </div>
+
+          <Suspense fallback={<InventorySkeleton />}>
+            <ClassifiedsList
+              classifieds={classifieds}
+              favourites={favouriteIds}
+            />
+          </Suspense>
+
           <CustomPagination
             baseURL={routes.inventory}
             totalPages={totalPages}
             styles={{
-              paginationRoot: "justify-end hidden lg:flex",
+              paginationRoot: "justify-center lg:hidden pt-12",
               paginationPrevious: "",
               paginationNext: "",
-              paginationLink: "border-none active:border text-black",
+              paginationLink: "border-none active:border",
               paginationLinkActive: "",
             }}
           />
         </div>
-
-        <Suspense fallback={<InventorySkeleton />}>
-          <ClassifiedsList
-            classifieds={classifieds}
-            favourites={favouriteIds}
-          />
-        </Suspense>
-
-        <CustomPagination
-          baseURL={routes.inventory}
-          totalPages={totalPages}
-          styles={{
-            paginationRoot: "justify-center lg:hidden pt-12",
-            paginationPrevious: "",
-            paginationNext: "",
-            paginationLink: "border-none active:border",
-            paginationLinkActive: "",
-          }}
-        />
       </div>
     </div>
   );

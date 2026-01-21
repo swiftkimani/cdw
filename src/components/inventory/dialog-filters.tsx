@@ -114,10 +114,10 @@ export const DialogFilters = (props: DialogFiltersProps) => {
           <Settings2 className="w-4 h-4" />{" "}
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[425px] h-[90vh] overflow-y-auto rounded-xl bg-white">
-        <div className="space-y-6">
+      <DialogContent className="max-w-[425px] h-[90vh] overflow-y-auto rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700">
+        <div className="space-y-6 p-2">
           <div>
-            <div className="text-lg font-semibold flex justify-between">
+            <div className="text-lg font-semibold flex justify-between text-gray-900 dark:text-white">
               <DialogTitle>Filters</DialogTitle>
             </div>
             <div className="mt-2" />
@@ -125,10 +125,10 @@ export const DialogFilters = (props: DialogFiltersProps) => {
 
           <SearchInput
             placeholder="Search classifieds..."
-            className="w-full px-3 py-2 border rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400"
           />
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <TaxonomyFilters
               searchParams={searchParams}
               handleChange={handleChange}
@@ -276,7 +276,7 @@ export const DialogFilters = (props: DialogFiltersProps) => {
                 onClick={clearFilters}
                 aria-disabled={!filterCount}
                 className={cn(
-                  "text-sm py-1",
+                  "text-sm py-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200",
                   !filterCount
                     ? "disabled opacity-50 pointer-events-none cursor-default"
                     : "hover:underline"

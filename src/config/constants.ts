@@ -3,12 +3,9 @@ import { ClassifiedStatus, CustomerStatus } from "@prisma/client";
 import { routes } from "./routes";
 
 export const imageSources = {
-  classifiedPlaceholder:
-    "https://swiftkimani-motors.s3.eu-north-1.amazonaws.com/uploads/AdobeStock_197763326.jpeg",
-  carLinup:
-    "https://swiftkimani-motors.s3.eu-north-1.amazonaws.com/uploads/AdobeStock_197763326.jpeg",
-  featureSection:
-    "https://majestic-motors.s3.eu-west-2.amazonaws.com/uploads/feature-section.jpg",
+  classifiedPlaceholder: "/images/hero-bg.jpg",
+  carLinup: "/images/hero-bg.jpg",
+  featureSection: "/images/hero-bg.jpg",
 };
 export const CLASSIFIEDS_PER_PAGE = 3;
 

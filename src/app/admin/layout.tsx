@@ -1,8 +1,23 @@
 import { AdminHeader } from "@/components/layouts/admin-header";
 import { AdminSidebar } from "@/components/layouts/admin-sidebar";
+import { routes } from "@/config/routes";
+import { auth } from "@/../auth";
+import { redirect } from "next/navigation";
 import type { PropsWithChildren } from "react";
 
 export default async function AdminLayout({ children }: PropsWithChildren) {
+  // Server-side auth check - redirect unauthenticated users to sign-in
+  const session = await auth();
+
+  if (!session) {
+    redirect(routes.signIn);
+  }
+
+  // Optional: Check if user needs 2FA verification
+  if (session.requires2FA) {
+    redirect(routes.challenge);
+  }
+
   return (
     <div className="flex bg-primary-900 min-h-screen w-full">
       <AdminSidebar />

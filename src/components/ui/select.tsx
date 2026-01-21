@@ -211,14 +211,14 @@ export const Select = (props: SelectProps) => {
 
   return (
     <div className={cn("mt-1", className)}>
-      {label && <h4 className="text-sm font-semibold">{label}</h4>}
+      {label && <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">{label}</h4>}
       <div className="mt-1">
         <select
           onChange={onChange}
           value={value ?? ""}
           className={cn(
             selectClassName,
-            "disabled:!bg-gray-100 w-full px-3 py-2 border-input border rounded-md focus:outline-hidden custom-select appearance-none pr-12 bg-no-repeat"
+            "disabled:!bg-gray-100 dark:disabled:!bg-gray-800 w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-hidden custom-select appearance-none pr-12 bg-no-repeat bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           )}
           {...rest}>
           {noDefault && <option value="">Select</option>}

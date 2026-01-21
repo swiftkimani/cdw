@@ -1,8 +1,7 @@
 @import 'tailwindcss';
-/*
-  ---break---
-*/
-@custom-variant dark (&:is(.dark *));
+
+/* Dark mode variant - works with next-themes class strategy */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-heading: var(--font-heading), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
@@ -149,6 +148,7 @@
 
   body {
     @apply bg-background text-foreground font-body;
+    overflow-x: hidden;
   }
 
   h1,
