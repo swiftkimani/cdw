@@ -53,12 +53,12 @@ export const ClassifiedForm = ({ classified }: ClassifiedFormProps) => {
       ...(classified && {
         images: classified.images
           ? classified.images.map((image, index) => ({
-              ...image,
-              id: index + 1,
-              percentage: 100,
-              key: extractKey(image.src),
-              done: true,
-            }))
+            ...image,
+            id: index + 1,
+            percentage: 100,
+            key: extractKey(image.src),
+            done: true,
+          }))
           : [],
         make: classified.makeId.toString(),
         model: classified.modelId.toString(),
@@ -99,9 +99,9 @@ export const ClassifiedForm = ({ classified }: ClassifiedFormProps) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(classifiedFormSubmit)}>
         <h1 className="text-3xl font-bold mb-6 text-muted">Upload Vehicle</h1>
-        <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 border border-border/50 dark:border-border/30 rounded-xl p-6 bg-card/50 backdrop-blur-sm shadow-sm">
           <ClassifiedFormFields />
-          <div className="space-y-6">
+          <div className="space-y-6 border border-border/40 dark:border-border/20 rounded-lg p-4 bg-background/50">
             <FormField
               control={form.control}
               name="images"

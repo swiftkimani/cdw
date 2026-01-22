@@ -69,13 +69,15 @@ export const config = {
 					console.log("✅ Password matched, issuing challenge...");
 					await issueChallenge(user.id, user.email);
 
+					// Get full user record and cast role
 					const dbUser = await prisma.user.findUnique({
 						where: { id: user.id },
-						omit: { hashedPassword: true },
 					});
 
-					console.log("✅ Returning user with requires2FA: true");
-					return { ...dbUser, requires2FA: true };
+					// Cast to get role (Prisma types may be stale but DB has role field)
+					const userRole = (dbUser as unknown as { role?: string })?.role;
+					console.log("✅ Returning user with requires2FA: true, role:", userRole);
+					return { ...dbUser, requires2FA: true, role: userRole };
 				} catch (error) {
 					console.log("❌ Auth error:", error);
 					return null;
@@ -102,7 +104,10 @@ export const config = {
 
 			if (!session) return null;
 
-			if (user) token.requires2FA = user.requires2FA;
+			if (user) {
+				token.requires2FA = user.requires2FA;
+				token.role = user.role;
+			}
 
 			token.id = session.sessionToken;
 			token.exp = session.expires.getTime();
@@ -110,11 +115,12 @@ export const config = {
 			return token;
 		},
 
-		async session({ session, user }) {
+		async session({ session, user, token }) {
 			session.user = {
 				id: session.userId,
 				email: user.email,
 			} as AdapterUser;
+			session.role = token?.role as typeof user.role;
 			return session;
 		},
 	},

@@ -52,7 +52,7 @@ export const ClassifiedFormFields = () => {
   const form = useFormContext();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted border border-border/40 dark:border-border/20 rounded-lg p-4 bg-background/50">
       <FormField
         control={form.control}
         name="year"
