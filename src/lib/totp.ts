@@ -159,6 +159,7 @@ export async function userHasTotpEnabled(userId: string): Promise<boolean> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { totpEnabled: true },
+    cacheStrategy: { ttl: 300 }, // Cache for 5 minutes
   });
   return user?.totpEnabled ?? false;
 }

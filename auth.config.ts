@@ -116,10 +116,11 @@ export const config = {
 		},
 
 		async session({ session, user }) {
-			// Fetch the user's role from database (token is not available with database sessions)
+			// Fetch the user's role from database with caching (5 min TTL)
 			const dbUser = await prisma.user.findUnique({
 				where: { id: user.id },
 				select: { role: true },
+				cacheStrategy: { ttl: 300 }, // Cache for 5 minutes
 			});
 			
 			session.user = {
