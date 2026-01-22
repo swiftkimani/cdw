@@ -16,6 +16,7 @@ export const resendChallengeAction = async () => {
     return {
       success: false,
       message: "Unauthorized",
+      usesTotp: false,
     };
   }
 

@@ -75,7 +75,7 @@ export const config = {
 					});
 
 					// Cast to get role (Prisma types may be stale but DB has role field)
-					const userRole = (dbUser as unknown as { role?: string })?.role;
+					const userRole = (dbUser as unknown as { role?: "SUPER_ADMIN" | "ADMIN" | "EDITOR" | "USER" })?.role;
 					console.log("✅ Returning user with requires2FA: true, role:", userRole);
 					return { ...dbUser, requires2FA: true, role: userRole };
 				} catch (error) {
@@ -115,12 +115,18 @@ export const config = {
 			return token;
 		},
 
-		async session({ session, user, token }) {
+		async session({ session, user }) {
+			// Fetch the user's role from database (token is not available with database sessions)
+			const dbUser = await prisma.user.findUnique({
+				where: { id: user.id },
+				select: { role: true },
+			});
+			
 			session.user = {
 				id: session.userId,
 				email: user.email,
 			} as AdapterUser;
-			session.role = token?.role as typeof user.role;
+			session.role = (dbUser as unknown as { role?: "SUPER_ADMIN" | "ADMIN" | "EDITOR" | "USER" })?.role;
 			return session;
 		},
 	},

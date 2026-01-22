@@ -66,7 +66,7 @@ export const OtpForm = () => {
     startCodeTransition(async () => {
       const result = await resendChallengeAction();
 
-      if (result.usesTotp) {
+      if ('usesTotp' in result && result.usesTotp) {
         // User has TOTP - no need to send email
         setUsesTotp(true);
         toast({
