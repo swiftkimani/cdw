@@ -21,7 +21,7 @@ export const ActiveLink = (props: ActiveLinkProps) => {
         className,
         isActive
           ? "bg-primary text-primary-foreground hover:bg-primary"
-          : "text-muted hover:bg-white/10"
+          : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
       )}>
       {children}
     </Link>

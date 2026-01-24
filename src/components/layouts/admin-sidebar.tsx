@@ -1,17 +1,23 @@
 "use client";
+
 import { routes } from "@/config/routes";
 import type { Variants } from "framer-motion";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   CarFrontIcon,
+  ChevronLeft,
+  ChevronRight,
   LayoutDashboardIcon,
   SettingsIcon,
   UsersIcon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useState } from "react";
+
 import { ActiveLink } from "../ui/active-link";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 const navigation = [
   {
@@ -37,23 +43,27 @@ const navigation = [
 ];
 
 export const AdminSidebar = () => {
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
-  const handleSidebarHover = useCallback((expanded: boolean) => {
-    setIsSidebarExpanded(expanded);
-  }, []);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const sidebarVariants: Variants = {
     expanded: { width: 256 },
-    collapsed: { width: "fit-content" },
+    collapsed: { width: 70 },
   };
 
   const menuTextVariants: Variants = {
     expanded: {
       opacity: 1,
       width: "auto",
-      marginLeft: 10,
+      display: "block",
+      transition: {
+        opacity: { delay: 0.1 },
+      }
     },
-    collapsed: { opacity: 0, width: 0 },
+    collapsed: {
+      opacity: 0,
+      width: 0,
+      display: "none"
+    },
   };
 
   const logoVariants: Variants = {
@@ -64,75 +74,98 @@ export const AdminSidebar = () => {
 
   return (
     <motion.div
-      className="bg-black/20 h-screen overflow-hidden flex flex-col"
+      className="hidden md:flex bg-white dark:bg-gray-900 h-screen border-r border-gray-200 dark:border-gray-800 flex-col transition-all relative z-10"
       animate={isSidebarExpanded ? "expanded" : "collapsed"}
       variants={sidebarVariants}
-      initial="collapsed"
+      initial="expanded"
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      onMouseEnter={() => handleSidebarHover(true)}
-      onMouseLeave={() => handleSidebarHover(false)}>
-      <div className="flex flex-col grow px-4">
-        <Link href={routes.home}>
-          <div className="relative h-[60px] w-full">
-            <AnimatePresence initial={false} mode="wait">
-              {isSidebarExpanded ? (
-                <motion.div
-                  key="expanded-logo"
-                  className="absolute inset-0"
-                  variants={logoVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  transition={{ duration: 0.4 }}>
-                  <Image
-                    src="/logo.svg"
-                    fill={true}
-                    className="object-contain object-left"
-                    alt="Majestic Motors Logo"
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="collapsed-logo"
-                  className="absolute inset-0"
-                  variants={logoVariants}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  transition={{ duration: 0.1 }}>
-                  <Image
-                    src="/logo-mob.svg"
-                    fill={true}
-                    className="object-contain object-left"
-                    alt="Majestic Motors Mobile Logo"
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+    >
+      {/* Branding Section */}
+      <div className="h-[70px] flex items-center justify-center border-b border-gray-100 dark:border-gray-800 px-4">
+        <Link href={routes.home} className="relative block h-10 w-full">
+          <AnimatePresence mode="wait">
+            {isSidebarExpanded ? (
+              <motion.div
+                key="expanded-logo"
+                className="absolute inset-0 flex items-center"
+                variants={logoVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                <Image
+                  src="/logo.svg"
+                  width={150}
+                  height={40}
+                  className="object-contain object-left h-8 w-auto"
+                  alt="Logo"
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="collapsed-logo"
+                className="absolute inset-0 flex items-center justify-center"
+                variants={logoVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+              >
+                <Image
+                  src="/logo-mob.svg"
+                  width={40}
+                  height={40}
+                  className="object-contain h-8 w-auto"
+                  alt="Logo"
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Link>
-        <nav className="flex flex-col gap-2">
-          {navigation.map((item) => {
-            return (
-              <ActiveLink
-                key={item.name}
-                href={item.href}
-                className="flex items-center p-2 rounded-lg transition-colors duration-200 w-full cursor-pointer">
-                <div className="flex items-center justify-center">
-                  <item.icon aria-hidden="true" className="h-6 w-6 shrinnk-0" />
-                  <motion.span
-                    variants={menuTextVariants}
-                    animate={isSidebarExpanded ? "expanded" : "collapsed"}
-                    initial="collapsed"
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="whitespace-nowrap overflow-hidden">
-                    {item.name}
-                  </motion.span>
-                </div>
-              </ActiveLink>
-            );
-          })}
-        </nav>
+      </div>
+
+      {/* Navigation Links */}
+      <div className="flex-1 overflow-y-auto py-4 px-3 flex flex-col gap-1">
+        {navigation.map((item) => (
+          <ActiveLink
+            key={item.name}
+            href={item.href}
+            className={cn(
+              "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group overflow-hidden whitespace-nowrap",
+              !isSidebarExpanded && "justify-center px-2"
+            )}
+          >
+            <item.icon className={cn("h-5 w-5 shrink-0 transition-colors")} />
+            <motion.span
+              variants={menuTextVariants}
+              className="font-medium text-sm"
+            >
+              {item.name}
+            </motion.span>
+          </ActiveLink>
+        ))}
+      </div>
+
+      {/* Footer Controls */}
+      <div className="p-3 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-2 bg-white dark:bg-gray-900">
+
+
+
+        {/* Sidebar Toggle Button */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+          className="w-full mt-2 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+        >
+          {isSidebarExpanded ? (
+            <div className="flex items-center gap-2">
+              <ChevronLeft className="h-4 w-4" />
+              <span className="text-xs uppercase font-semibold tracking-wider">Collapse</span>
+            </div>
+          ) : (
+            <ChevronRight className="h-4 w-4" />
+          )}
+        </Button>
       </div>
     </motion.div>
   );

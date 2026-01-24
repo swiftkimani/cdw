@@ -17,13 +17,14 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient;
+  prisma: ReturnType<typeof makeClient>;
 };
-export const prisma = globalForPrisma.prisma || makeClient();
 
-function makeClient(){
+function makeClient() {
   return new PrismaClient().$extends(withAccelerate());
 }
+
+export const prisma = globalForPrisma.prisma || makeClient();
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
