@@ -40,7 +40,7 @@ export default async function AdminLayout({ children }: PropsWithChildren) {
   }
 
   return (
-    <div className="flex bg-gray-100 dark:bg-gray-950 min-h-screen w-full">
+    <div className="flex bg-gray-100 dark:bg-gray-950 h-screen overflow-hidden w-full">
       <AdminSidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
         <AdminHeader />

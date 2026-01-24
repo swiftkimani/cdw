@@ -5,6 +5,7 @@ import { getFavouriteIds } from "@/lib/favourites-db";
 import { getSourceId } from "@/lib/source-id";
 import { HeartIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { SignOutForm } from "../auth/sign-out-form";
 import { ThemeToggle } from "../theme-toggle";
 import { Button } from "../ui/button";
@@ -12,9 +13,16 @@ import { NavLink } from "../ui/nav-link";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 
 const CalligraphyLogo = () => (
-  <span className="font-serif text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent italic">
-    swiftkimani
-  </span>
+  <div className="flex items-center gap-2">
+    <Image
+      src="/logo.png"
+      alt="Leroki Motors Logo"
+      width={180}
+      height={80}
+      className="object-contain h-12 md:h-16 w-auto rounded-lg"
+      priority
+    />
+  </div>
 );
 
 export const PublicHeader = async () => {
@@ -29,7 +37,7 @@ export const PublicHeader = async () => {
           {/* Logo - Left Section */}
           <Link
             href={routes.home}
-            className="flex-shrink-0 min-w-0 truncate max-w-[120px] sm:max-w-none md:flex-1"
+            className="flex-shrink-0 min-w-0 sm:max-w-none md:flex-1"
           >
             <CalligraphyLogo />
           </Link>

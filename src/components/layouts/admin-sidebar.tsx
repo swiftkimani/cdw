@@ -81,7 +81,7 @@ export const AdminSidebar = () => {
       transition={{ duration: 0.3, ease: "easeInOut" }}
     >
       {/* Branding Section */}
-      <div className="h-[70px] flex items-center justify-center border-b border-gray-100 dark:border-gray-800 px-4">
+      <div className="h-[100px] flex items-center justify-center border-b border-gray-100 dark:border-gray-800 px-4">
         <Link href={routes.home} className="relative block h-10 w-full">
           <AnimatePresence mode="wait">
             {isSidebarExpanded ? (
@@ -94,10 +94,10 @@ export const AdminSidebar = () => {
                 exit="exit"
               >
                 <Image
-                  src="/logo.svg"
-                  width={150}
-                  height={40}
-                  className="object-contain object-left h-8 w-auto"
+                  src="/logo.png"
+                  width={200}
+                  height={80}
+                  className="object-contain object-left h-20 w-auto rounded-lg"
                   alt="Logo"
                 />
               </motion.div>
@@ -111,10 +111,10 @@ export const AdminSidebar = () => {
                 exit="exit"
               >
                 <Image
-                  src="/logo-mob.svg"
+                  src="/logo.png"
                   width={40}
                   height={40}
-                  className="object-contain h-8 w-auto"
+                  className="object-contain h-10 w-auto"
                   alt="Logo"
                 />
               </motion.div>
@@ -155,7 +155,7 @@ export const AdminSidebar = () => {
           variant="ghost"
           size="sm"
           onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-          className="w-full mt-2 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+          className="w-full mt-2 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
         >
           {isSidebarExpanded ? (
             <div className="flex items-center gap-2">

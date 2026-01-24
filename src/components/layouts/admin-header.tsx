@@ -71,10 +71,10 @@ export const AdminHeader = () => {
               <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
               <Link href={routes.home} onClick={() => setOpen(false)}>
                 <Image
-                  src="/logo.svg"
-                  width={140}
-                  height={40}
-                  className="object-contain h-8 w-auto"
+                  src="/logo.png"
+                  width={240}
+                  height={80}
+                  className="object-contain h-20 w-auto rounded-lg"
                   alt="Logo"
                 />
               </Link>

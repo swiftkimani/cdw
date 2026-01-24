@@ -75,8 +75,8 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           whileHover={{ y: -4, scale: 1.01 }}
-          className="bg-white dark:bg-gray-800 relative rounded-xl shadow-lg dark:shadow-gray-900/40 overflow-hidden flex flex-col border border-gray-100 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-gray-900/60 transition-shadow duration-300 cursor-pointer">
-          <div className="aspect-3/2 relative bg-gray-100 dark:bg-gray-700">
+          className="bg-white dark:bg-gray-800/95 relative rounded-xl shadow-lg dark:shadow-black/40 overflow-hidden flex flex-col border border-gray-100 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300 cursor-pointer hover:-translate-y-1">
+          <div className="aspect-3/2 relative bg-gray-100 dark:bg-gray-900">
             <Link href={routes.singleClassified(classified.slug)}>
               {classified.images[0]?.src ? (
                 <ImgixImage
@@ -137,7 +137,7 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
             </div>
             <div className="mt-4 flex flex-col lg:flex-row space-y-2 lg:space-y-0 lg:gap-x-3 w-full">
               <Button
-                className="flex-1 transition-all py-2.5 lg:py-3 h-full text-xs md:text-sm xl:text-base border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-primary hover:text-white hover:border-primary dark:hover:bg-primary dark:hover:border-primary"
+                className="flex-1 transition-all py-2.5 lg:py-3 h-full text-xs md:text-sm xl:text-base"
                 asChild
                 variant="outline"
                 size="sm">

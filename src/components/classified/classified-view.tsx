@@ -27,6 +27,8 @@ import Link from "next/link";
 import { HTMLParser } from "../shared/html-parser";
 import { Button } from "../ui/button";
 import { ClassifiedCarousel } from "./classified-carousel";
+import { FinanceCalculator } from "./finance-calculator";
+import { WhatsAppButton } from "../shared/whatsapp-button";
 
 type ClassifiedWithImagesAndMake = Prisma.ClassifiedGetPayload<{
   include: { make: true; images: true };
@@ -151,15 +153,26 @@ export const ClassifiedView = (props: ClassifiedWithImagesAndMake) => {
               </p>
             </div>
 
-            {/* Reserve Button */}
-            <Button
-              className="w-full py-6 text-lg font-bold uppercase tracking-wide rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
-              size="lg"
-              asChild>
-              <Link href={routes.reserve(props.slug, MultiStepFormEnum.WELCOME)}>
-                Reserve Now
-              </Link>
-            </Button>
+            {/* Reserve & WhatsApp Actions */}
+            <div className="flex flex-col gap-3">
+              <Button
+                className="w-full py-6 text-lg font-bold uppercase tracking-wide rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                size="lg"
+                asChild>
+                <Link href={routes.reserve(props.slug, MultiStepFormEnum.WELCOME)}>
+                  Reserve Now
+                </Link>
+              </Button>
+              <WhatsAppButton
+                message={`Hi, I'm interested in the ${props.year} ${props.make.name} ${props.title} (${formatPrice({ price: props.price, currency: props.currency })})`}
+                fullWidth
+                variant="outline"
+                className="py-6 text-lg"
+              />
+            </div>
+
+            {/* Finance Calculator */}
+            <FinanceCalculator price={props.price} />
 
             {/* Feature Grid */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg dark:shadow-gray-900/30">

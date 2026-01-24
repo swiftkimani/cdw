@@ -2,6 +2,7 @@ import { navLinks } from "@/config/constants";
 import { routes } from "@/config/routes";
 import { SiInstagram, SiMeta, SiX } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
+import Image from "next/image";
 import { NewsletterForm } from "../shared/newsletter-form";
 
 const socialLinks = [
@@ -23,10 +24,17 @@ const socialLinks = [
 ];
 
 // Logo Component for Footer
+// Logo Component for Footer
 const FooterLogo = () => (
-  <span className="font-serif text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent italic">
-    swiftkimani
-  </span>
+  <div className="flex items-center gap-2">
+    <Image
+      src="/logo.png"
+      alt="Leroki Motors Logo"
+      width={400}
+      height={160}
+      className="object-contain h-32 w-auto rounded-lg"
+    />
+  </div>
 );
 
 export const PublicFooter = () => {
@@ -42,8 +50,8 @@ export const PublicFooter = () => {
             {socialLinks.map((link) => {
               const Icon = link.icon;
               return (
-                <Link 
-                  href={link.href} 
+                <Link
+                  href={link.href}
                   key={link.id}
                   className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
@@ -77,13 +85,13 @@ export const PublicFooter = () => {
         {/* Newsletter */}
         <NewsletterForm />
       </div>
-      
+
       {/* Company Info */}
       <div className="container mx-auto mt-8 pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
         <h4 className="text-lg font-bold text-blue-600 dark:text-blue-400 mb-2">Company Info</h4>
         <p className="text-gray-600 dark:text-gray-400 text-sm">Company No. 123456789 | VAT No. GB123456789</p>
         <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
-          Majestic Motors is not authorised and not regulated by the Financial Conduct Authority
+          Leroki Motors is not authorised and not regulated by the Financial Conduct Authority
         </p>
       </div>
     </footer>

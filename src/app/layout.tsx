@@ -8,8 +8,8 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Car Dealer Website",
-  description: "A sick car dealer website with AI.",
+  title: "Leroki Motors",
+  description: "Kenya's friendliest car dealership. Quality cars, friendly service.",
 };
 
 const mulish = Mulish({

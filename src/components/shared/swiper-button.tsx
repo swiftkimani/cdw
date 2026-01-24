@@ -22,7 +22,7 @@ export const SwiperButtons = (props: SwiperButtonsProps) => {
           "swiper-button-prev absolute top-1/2 -translate-y-1/2 z-10 flex items-center rounded-full"
         )}
         onClick={(e) => e.stopPropagation()}>
-        <ChevronLeft className="h-8 w-8" color="black" />
+        <ChevronLeft className="h-8 w-8" />
       </Button>
       <Button
         variant="ghost"
@@ -34,7 +34,7 @@ export const SwiperButtons = (props: SwiperButtonsProps) => {
           "swiper-button-next absolute top-1/2 -translate-y-1/2 z-10 flex items-center rounded-full"
         )}
         onClick={(e) => e.stopPropagation()}>
-        <ChevronRight className="h-8 w-8" color="black" />
+        <ChevronRight className="h-8 w-8" />
       </Button>
     </>
   );
