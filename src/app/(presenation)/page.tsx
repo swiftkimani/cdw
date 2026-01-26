@@ -4,6 +4,8 @@ import { LatestArrivals } from "@/components/homepage/latest-arrivals";
 import { OurBrandsSection } from "@/components/homepage/our-brands-section";
 import type { PageProps } from "@/config/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home(props: PageProps) {
   const searchParams = await props.searchParams;
   return (

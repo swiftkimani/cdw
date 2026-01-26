@@ -1,4 +1,6 @@
 import { PageSchema } from "@/app/schemas/page.schema";
+
+export const dynamic = "force-dynamic";
 import { ClassifiedsList } from "@/components/inventory/classifieds-list";
 import { DialogFilters } from "@/components/inventory/dialog-filters";
 import { InventorySkeleton } from "@/components/inventory/inventory-skeleton";

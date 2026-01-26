@@ -1,4 +1,6 @@
 import { PageSchema } from "../../schemas/page.schema";
+export const dynamic = "force-dynamic";
+
 import { ClassifiedCard } from "@/components/inventory/classified-card";
 import { CustomPagination } from "@/components/shared/custom-pagination";
 import { CLASSIFIEDS_PER_PAGE } from "@/config/constants";

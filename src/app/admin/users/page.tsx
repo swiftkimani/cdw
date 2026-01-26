@@ -4,6 +4,9 @@ import { canManageUsers, formatRole, type Role } from "@/lib/permissions";
 import { redirect } from "next/navigation";
 import { UserRoleSelect } from "@/components/admin/user-role-select";
 
+// Opt out of static generation as this page uses auth()
+export const dynamic = "force-dynamic";
+
 // Helper to get role badge styles
 function getRoleBadgeClass(role: Role): string {
     switch (role) {

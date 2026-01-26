@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -46,7 +47,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <NextTopLoader showSpinner={false} />
-          <NuqsAdapter>{children}</NuqsAdapter>
+          <Suspense fallback={null}>
+            <NuqsAdapter>{children}</NuqsAdapter>
+          </Suspense>
           <Toaster />
         </ThemeProvider>
       </body>
