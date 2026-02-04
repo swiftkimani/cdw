@@ -34,7 +34,7 @@ export const SearchButton = ({ count }: { count: number }) => {
   url.search = queryParams.toString();
 
   return (
-    <Button className="w-full" asChild>
+    <Button className="w-full bg-[#111111] text-white hover:bg-[#222222] dark:bg-white dark:text-[#111111] dark:hover:bg-gray-100" asChild>
       <Link href={url.toString()}>
         Search{count > 0 ? ` (${count})` : null}
       </Link>

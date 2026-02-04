@@ -46,7 +46,7 @@ export const PublicHeader = async () => {
               key={link.id}
               href={link.href}
               className="px-4 py-2 text-sm font-medium rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-all duration-200"
-              activeClassName="!bg-blue-500 !text-white !font-semibold shadow-md shadow-blue-500/30"
+              activeClassName="!bg-gray-900 dark:!bg-white !text-white dark:!text-gray-900 !font-semibold"
             >
               {link.label}
             </NavLink>
@@ -58,11 +58,11 @@ export const PublicHeader = async () => {
           {!session && (
             <Link
               href={routes.favourites}
-              className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-pink-50 dark:hover:bg-pink-900/30 text-gray-600 dark:text-gray-300 hover:text-pink-500 transition-all duration-200 group"
+              className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-100/50 dark:bg-gray-800/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-200 group"
             >
               <HeartIcon className="w-5 h-5 group-hover:scale-110 transition-transform" />
               {favouriteIds.length > 0 && (
-                <span className="absolute top-0 right-0 w-3 h-3 bg-pink-500 rounded-full ring-2 ring-white dark:ring-gray-900 animate-pulse" />
+                <span className="absolute top-0 right-0 w-3 h-3 bg-gray-900 dark:bg-white rounded-full ring-2 ring-white dark:ring-gray-900" />
               )}
             </Link>
           )}
@@ -111,7 +111,7 @@ export const PublicHeader = async () => {
                       <NavLink
                         href={link.href}
                         className="px-4 py-3 text-base font-medium rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                        activeClassName="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                        activeClassName="bg-gray-100 dark:bg-white/10 text-gray-900 dark:text-white"
                       >
                         {link.label}
                       </NavLink>
@@ -144,7 +144,7 @@ export const PublicHeader = async () => {
                     <>
                       <SheetClose asChild>
                         <Link href={routes.admin.dashboard}>
-                          <Button className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white py-6">
+                          <Button className="w-full rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:opacity-90 py-6">
                             Dashboard
                           </Button>
                         </Link>

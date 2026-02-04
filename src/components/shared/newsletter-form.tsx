@@ -24,11 +24,11 @@ const SubscribeButton = () => {
     <Button
       disabled={pending}
       type="submit"
-      className="w-full uppercase font-bold">
+      className="w-full uppercase font-bold bg-white text-black hover:bg-gray-100 dark:bg-black dark:text-white dark:hover:bg-gray-900 border border-white/20">
       {pending && (
         <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" />
       )}{" "}
-      Subscribe Now
+      Subscribe
     </Button>
   );
 };
@@ -59,10 +59,10 @@ export const NewsletterForm = () => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-xl font-bold text-primary">
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white">
         Subscribe to our inventory updates
       </h3>
-      <p className="text-gray-700">
+      <p className="text-gray-500 dark:text-gray-400">
         Enter your details to receive new stock updates
       </p>
       <Form {...form}>

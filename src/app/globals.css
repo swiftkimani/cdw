@@ -106,13 +106,13 @@
     --foreground: 210 20% 10%;
     --secondary: 40 90% 60%;
     --popover: 0 0% 100%;
-    --primary: 210 70% 50%;
-    --border: 210 10% 85%;
-    --accent: 210 70% 50%;
-    --muted: 210 10% 96%;
-    --input: 210 10% 85%;
+    --primary: 0 0% 15%;
+    --border: 0 0% 85%;
+    --accent: 0 0% 20%;
+    --muted: 0 0% 96%;
+    --input: 0 0% 85%;
     --card: 0 0% 100%;
-    --ring: 210 70% 50%;
+    --ring: 0 0% 30%;
     --radius: 0.5rem;
   }
 
@@ -129,13 +129,13 @@
     --foreground: 0 0% 95%;
     --secondary: 40 90% 60%;
     --popover: 222 47% 11%;
-    --primary: 210 70% 50%;
-    --border: 217 32% 17%;
-    --accent: 210 70% 50%;
-    --muted: 217 32% 15%;
-    --input: 217 32% 17%;
-    --card: 222 47% 11%;
-    --ring: 210 70% 50%;
+    --primary: 0 0% 95%;
+    --border: 0 0% 25%;
+    --accent: 0 0% 80%;
+    --muted: 0 0% 20%;
+    --input: 0 0% 25%;
+    --card: 0 0% 8%;
+    --ring: 0 0% 70%;
   }
 
   *,
@@ -244,15 +244,15 @@
   }
 }
 
-/* refined glow - sharper and more premium */
+/* Automotive glow - subtle white/silver only */
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.15), 0 0 30px rgba(139, 92, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05), 0 0 40px rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.1);
   }
   50% {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.25), 0 0 50px rgba(139, 92, 246, 0.15);
-    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.08), 0 0 60px rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -275,10 +275,10 @@
 }
 
 .card-hover-lift:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4), 
-              0 0 20px rgba(59, 130, 246, 0.15); /* Blue glow */
-  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateY(-4px) scale(1.005);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3), 
+              0 0 15px rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .card-metallic {
@@ -295,6 +295,34 @@
 }
 
 /* Metallic Text */
+/* Automotive Gradients - Monochromatic */
+.gradient-primary {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}
+
+.gradient-dark {
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #1e293b 100%);
+}
+
+.gradient-silver {
+  background: linear-gradient(145deg, #f5f5f5 0%, #e5e5e5 50%, #d4d4d4 100%);
+}
+
+.gradient-chrome {
+  background: linear-gradient(145deg, #ffffff 0%, #e5e5e5 25%, #c0c0c0 50%, #a8a8a8 75%, #e5e5e5 100%);
+}
+
+.gradient-mesh {
+  background: 
+    radial-gradient(at 40% 20%, rgba(255, 255, 255, 0.03) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(255, 255, 255, 0.02) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(255, 255, 255, 0.02) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, rgba(255, 255, 255, 0.02) 0px, transparent 50%);
+}
 .text-metallic {
   background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 50%, #94a3b8 100%);
   -webkit-background-clip: text;
@@ -314,7 +342,7 @@
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(45deg, transparent 40%, rgba(59, 130, 246, 0.6) 50%, transparent 60%);
+  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -323,8 +351,26 @@
   animation: shimmer 4s infinite linear;
 }
 
+/* ============================================
+   TEXT EFFECTS - AUTOMOTIVE
+   ============================================ */
+
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 50%, #c0c0c0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-accent {
+  background: linear-gradient(135deg, #e5e5e5 0%, #a3a3a3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .text-shadow-glow {
-  text-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
 }
 
 /* ============================================

@@ -99,7 +99,7 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
               isFavourite={isFavourite}
               id={classified.id}
             />
-            <div className="absolute top-2.5 right-3.5 bg-primary text-slate-50 font-bold px-2 py-1 rounded">
+            <div className="absolute top-2.5 right-3.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold px-2 py-1 rounded">
               <p className="text-xs lg:text-base xl:text-lg font-semibold">
                 {formatPrice({
                   price: classified.price,
@@ -150,7 +150,7 @@ export const ClassifiedCard = (props: ClassifiedCardProps) => {
                 </Link>
               </Button>
               <Button
-                className="flex-1 py-2.5 lg:py-3 h-full text-xs md:text-sm xl:text-base bg-primary hover:bg-primary/90 text-white"
+                className="flex-1 py-2.5 lg:py-3 h-full text-xs md:text-sm xl:text-base bg-gray-900 hover:bg-gray-800 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-900"
                 asChild
                 size="sm">
                 <Link href={routes.singleClassified(classified.slug)}>

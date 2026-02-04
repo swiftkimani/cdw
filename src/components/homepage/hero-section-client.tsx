@@ -4,13 +4,13 @@ import { imageSources } from "@/config/constants";
 import { routes } from "@/config/routes";
 import type { AwaitedPageProps } from "@/config/types";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { Button } from "../ui/button";
 import { HomepageTaxonomyFilters } from "./homepage-filters";
 import { SearchButton } from "./search-button";
-import { FloatingElements } from "./floating-elements";
 import { AnimatedCounter } from "./animated-counter";
-import { ArrowRight, Sparkles, Shield, Award } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 
 interface HeroSectionClientProps {
     searchParams: AwaitedPageProps["searchParams"];
@@ -30,197 +30,172 @@ export const HeroSectionClient = ({
     isFilterApplied,
     minMaxValues,
 }: HeroSectionClientProps) => {
-    // Animation variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.2,
-            },
-        },
-    };
+    const containerRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.6,
-                ease: [0.25, 0.1, 0.25, 1] as const,
-            },
-        },
-    };
+    // Parallax transforms
+    const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+    const textY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
     const stats = [
-        { value: 500, suffix: "+", label: "Premium Vehicles" },
-        { value: 15, suffix: "+", label: "Luxury Brands" },
-        { value: 98, suffix: "%", label: "Happy Customers" },
+        { value: 500, suffix: "+", label: "Vehicles" },
+        { value: 15, suffix: "+", label: "Brands" },
+        { value: 98, suffix: "%", label: "Satisfied" },
     ];
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden -mt-20">
-            {/* Background Image with Parallax Effect */}
-            <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
+        <section ref={containerRef} className="relative min-h-[100vh] flex items-center overflow-hidden bg-black -mt-20">
+            {/* Background Image with True Parallax */}
+            <motion.div
+                className="absolute inset-0 bg-cover bg-center"
                 style={{
                     backgroundImage: `url(${imageSources.carLinup})`,
+                    y: backgroundY,
                 }}
             />
 
-            {/* Dark Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/90" />
+            {/* Dramatic dark overlay with gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-black/70" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/50" />
 
-            {/* Animated Mesh Gradient */}
-            <div className="absolute inset-0 gradient-mesh opacity-60" />
+            {/* Subtle noise texture */}
+            <div className="absolute inset-0 opacity-[0.015]" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            }} />
 
-            {/* Floating Elements */}
-            <FloatingElements />
+            {/* Main Content */}
+            <div className="container relative z-10 mx-auto px-6 lg:px-8 pt-32 pb-20">
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-[70vh]">
 
-            {/* Content Container */}
-            <div className="container relative z-10 py-24 lg:py-32 px-4 sm:px-6">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                    {/* Hero Text Content */}
+                    {/* Left Side - Text Content (7 cols) */}
                     <motion.div
-                        className="text-center lg:text-left space-y-6"
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
+                        className="lg:col-span-7 space-y-8"
+                        style={{ y: textY, opacity }}
                     >
-                        {/* Badge */}
-                        <motion.div variants={itemVariants}>
-                            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium text-white/90">
-                                <Sparkles className="w-4 h-4 text-yellow-400" />
-                                Premium Car Dealership
+                        {/* Overline */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                        >
+                            <span className="inline-flex items-center gap-3 text-white/40 text-sm uppercase tracking-[0.2em] font-medium">
+                                <span className="w-12 h-px bg-white/30" />
+                                Premium Automotive
                             </span>
                         </motion.div>
 
-                        {/* Main Headline */}
+                        {/* Main Headline - Big and Bold */}
                         <motion.h1
-                            variants={itemVariants}
-                            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight"
+                            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tight"
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.3 }}
                         >
-                            <span className="block">Find Your</span>
-                            <span className="block text-gradient">Dream Car</span>
-                            <span className="block">Today</span>
+                            <span className="block">Drive</span>
+                            <span className="block text-white/20">Your</span>
+                            <span className="block">Dreams</span>
                         </motion.h1>
 
-                        {/* Subheadline */}
+                        {/* Subline */}
                         <motion.p
-                            variants={itemVariants}
-                            className="text-lg sm:text-xl text-white/70 max-w-xl mx-auto lg:mx-0"
+                            className="text-lg text-white/50 max-w-md leading-relaxed"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.5 }}
                         >
                             Discover an exclusive collection of premium vehicles.
-                            Unbeatable deals on new and pre-owned luxury cars.
+                            Uncompromised luxury. Unmatched performance.
                         </motion.p>
 
-                        {/* CTA Buttons - Mobile Only */}
+                        {/* CTA Buttons */}
                         <motion.div
-                            variants={itemVariants}
-                            className="flex flex-col sm:flex-row gap-4 justify-center lg:hidden"
+                            className="flex flex-wrap gap-4 pt-4"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.6 }}
                         >
-                            <Button
-                                asChild
-                                size="lg"
-                                className="group gradient-primary text-white font-semibold px-8 py-6 rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300"
+                            <Link
+                                href={routes.inventory}
+                                className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-medium rounded-none hover:bg-white/90 transition-all duration-300"
                             >
-                                <Link href={routes.inventory}>
-                                    Browse Inventory
-                                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                                </Link>
-                            </Button>
+                                View Collection
+                                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                            <Link
+                                href={routes.contact}
+                                className="inline-flex items-center gap-3 px-8 py-4 bg-transparent text-white font-medium rounded-none border border-white/20 hover:bg-white/5 transition-all duration-300"
+                            >
+                                Book Test Drive
+                            </Link>
                         </motion.div>
 
-                        {/* Stats Section */}
+                        {/* Stats Row */}
                         <motion.div
-                            variants={itemVariants}
-                            className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10"
+                            className="flex items-center gap-8 pt-8"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 0.8 }}
                         >
                             {stats.map((stat, index) => (
-                                <div key={index} className="text-center lg:text-left">
-                                    <div className="text-2xl sm:text-3xl font-bold text-white">
+                                <div key={index} className="text-center">
+                                    <div className="text-3xl font-bold text-white">
                                         <AnimatedCounter
                                             value={stat.value}
                                             suffix={stat.suffix}
                                             duration={1.5}
                                         />
                                     </div>
-                                    <div className="text-sm text-white/50 mt-1">{stat.label}</div>
+                                    <div className="text-xs text-white/30 uppercase tracking-wider mt-1">
+                                        {stat.label}
+                                    </div>
                                 </div>
                             ))}
                         </motion.div>
                     </motion.div>
 
-                    {/* Search Form Card */}
+                    {/* Right Side - Search Card (5 cols) */}
                     <motion.div
-                        className="w-full max-w-md mx-auto lg:mx-0 lg:ml-auto"
-                        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.7, delay: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                        className="lg:col-span-5"
+                        initial={{ opacity: 0, x: 40 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
                     >
-                        <div className="relative">
-                            {/* Glow Effect Behind Card */}
-                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur-xl opacity-30 animate-gradient" />
+                        <div className="bg-white/5 backdrop-blur-md border border-white/10 p-6 lg:p-8">
+                            {/* Card Header */}
+                            <div className="mb-6">
+                                <h3 className="text-xl font-semibold text-white mb-1">
+                                    Find Your Car
+                                </h3>
+                                <p className="text-sm text-white/40">
+                                    Search our premium collection
+                                </p>
+                            </div>
 
-                            {/* Glass Card */}
-                            <div className="relative glass-light rounded-2xl p-6 sm:p-8 shadow-2xl">
-                                {/* Card Header */}
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
-                                        <Shield className="w-5 h-5 text-white" />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                                            Find Your Perfect Car
-                                        </h3>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                                            Search our premium collection
-                                        </p>
-                                    </div>
-                                </div>
+                            {/* Filters */}
+                            <div className="space-y-4">
+                                <HomepageTaxonomyFilters
+                                    minMaxValues={minMaxValues}
+                                    searchParams={searchParams}
+                                />
 
-                                {/* Filters */}
-                                <div className="space-y-4">
-                                    <HomepageTaxonomyFilters
-                                        minMaxValues={minMaxValues}
-                                        searchParams={searchParams}
-                                    />
+                                <div className="pt-4 space-y-3">
+                                    <SearchButton count={classifiedsCount} />
 
-                                    <div className="pt-2 space-y-3">
-                                        <SearchButton count={classifiedsCount} />
-
-                                        {isFilterApplied && (
-                                            <Button
-                                                asChild
-                                                variant="outline"
-                                                className="w-full hover:bg-gray-100 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600 rounded-xl"
-                                            >
-                                                <Link href={routes.home}>
-                                                    Clear Filters ({totalFiltersApplied})
-                                                </Link>
-                                            </Button>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Trust Badges */}
-                                <div className="flex items-center justify-center gap-4 mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                                    <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                                        <Award className="w-4 h-4 text-yellow-500" />
-                                        Certified
-                                    </div>
-                                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
-                                    <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                                        <Shield className="w-4 h-4 text-green-500" />
-                                        Warranty
-                                    </div>
-                                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
-                                    <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
-                                        <Sparkles className="w-4 h-4 text-blue-500" />
-                                        Premium
-                                    </div>
+                                    {isFilterApplied && (
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            className="w-full bg-transparent border-white/20 text-white hover:bg-white/5"
+                                        >
+                                            <Link href={routes.home}>
+                                                Clear Filters ({totalFiltersApplied})
+                                            </Link>
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -230,23 +205,22 @@ export const HeroSectionClient = ({
 
             {/* Scroll Indicator */}
             <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.5, duration: 0.5 }}
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
             >
+                <span className="text-xs text-white/30 uppercase tracking-widest">Scroll</span>
                 <motion.div
-                    className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2"
-                    animate={{ y: [0, 5, 0] }}
+                    animate={{ y: [0, 8, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 >
-                    <motion.div
-                        className="w-1.5 h-1.5 rounded-full bg-white/60"
-                        animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                    />
+                    <ChevronDown className="w-5 h-5 text-white/30" />
                 </motion.div>
             </motion.div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
         </section>
     );
 };

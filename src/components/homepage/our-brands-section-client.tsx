@@ -85,7 +85,7 @@ export const OurBrandsSectionClient = ({ brands, count }: OurBrandsSectionClient
                     >
                         <Link
                             href={routes.inventory}
-                            className="inline-flex items-center gap-3 px-8 py-4 gradient-primary text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300"
+                            className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-xl shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30 transition-all duration-300"
                         >
                             Browse All Brands
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -108,7 +108,7 @@ const BrandCard = ({ brand }: { brand: Brand }) => {
                 whileHover={{
                     scale: 1.08,
                     y: -4,
-                    boxShadow: "0 20px 40px -15px rgba(59, 130, 246, 0.2)",
+                    boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.15)",
                 }}
                 transition={{ duration: 0.2 }}
             >
@@ -122,7 +122,7 @@ const BrandCard = ({ brand }: { brand: Brand }) => {
                 </div>
 
                 {/* Hover Glow */}
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-blue-500/5 to-purple-500/5" />
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-white/10 to-gray-500/5" />
             </motion.div>
         </Link>
     );
