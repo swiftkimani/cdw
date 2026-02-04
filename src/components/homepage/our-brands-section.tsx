@@ -1,8 +1,7 @@
 import { routes } from "@/config/routes";
 import { prisma } from "@/lib/prisma";
 import { ClassifiedStatus } from "@prisma/client";
-import Image from "next/image";
-import Link from "next/link";
+import { OurBrandsSectionClient } from "./our-brands-section-client";
 
 export const OurBrandsSection = async () => {
   const brands = await prisma.make.findMany({
@@ -24,6 +23,9 @@ export const OurBrandsSection = async () => {
           "Volkswagen",
           "Maserati",
           "Lexus",
+          "BMW",
+          "Tesla",
+          "Range Rover",
         ],
         mode: "insensitive",
       },
@@ -34,33 +36,5 @@ export const OurBrandsSection = async () => {
     where: { status: ClassifiedStatus.LIVE },
   });
 
-  return (
-    <div className="py-16 sm:py-24 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-12">
-        <div className="px-6 lg:px-8 sm:text-center">
-          <h2 className="mt-2 uppercase text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-            Our Brands
-          </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-            We have {count} vehicle in stock, ready for same-day drive away.
-          </p>
-        </div>
-        <div className="grid grid-cols-3 lg:grid-cols-5 gap-4">
-          {brands.map(({ id, image, name }) => (
-            <Link
-              key={id}
-              href={`${routes.inventory}?make=${id}`}
-              className="hover:scale-110 transition-all duration-100 ease-in-out relative h-24 flex items-center justify-center bg-white dark:bg-gray-800 rounded-lg p-2">
-              <Image
-                src={image}
-                alt={name}
-                className="object-contain aspect-1/1 dark:invert dark:brightness-200"
-                fill={true}
-              />
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  return <OurBrandsSectionClient brands={brands} count={count} />;
 };

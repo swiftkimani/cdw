@@ -1,3 +1,4 @@
+import { CTASection } from "@/components/homepage/cta-section";
 import { FeaturesSection } from "@/components/homepage/features-section";
 import { HeroSection } from "@/components/homepage/hero-section";
 import { LatestArrivals } from "@/components/homepage/latest-arrivals";
@@ -14,6 +15,7 @@ export default async function Home(props: PageProps) {
       <FeaturesSection />
       <LatestArrivals />
       <OurBrandsSection />
+      <CTASection />
     </div>
   );
 }
